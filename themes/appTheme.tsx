@@ -1,5 +1,6 @@
 import { extendTheme } from 'native-base';
-import { variantHome } from './variants/buttonsVariants';
+import { variantHome } from './variants/buttonVariants';
+import { variantButton } from './variants/textVariants';
 
 export const theme = extendTheme({
   colors: {
@@ -7,17 +8,24 @@ export const theme = extendTheme({
       100: '#e5e5e5',
     },
     blue: {
-      100: '#4989b6',
+      100: '#4399A5',
+      200: '#337e88',
     },
     gray: {
       100: '#6b7280',
+      200: '#5b6271',
     },
   },
   components: {
     Button: {
       variants: {
-        homeBlue: variantHome(`blue.100`),
-        homeGray: variantHome(`gray.100`),
+        homeBlue: variantHome(`blue.100`, `blue.200`),
+        homeGray: variantHome(`gray.100`, `gray.200`),
+      },
+    },
+    Text: {
+      variants: {
+        textButton: variantButton,
       },
     },
   },

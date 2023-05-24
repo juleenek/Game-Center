@@ -1,4 +1,4 @@
-export const variantHome = (color: string) => {
+export const variantHome = (color: string, pressedColor: string) => {
   return {
     shadow: '5',
     rounded: 'full',
@@ -7,5 +7,8 @@ export const variantHome = (color: string) => {
     fontSize: '30',
     h: '7%',
     w: '55%',
+    _pressed: {
+      bg: pressedColor,
+    },
   };
 };
