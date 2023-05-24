@@ -1,37 +1,24 @@
-import { extendTheme } from "native-base";
+import { extendTheme } from 'native-base';
+import { variantHome } from './variants/buttonsVariants';
 
 export const theme = extendTheme({
-  fontConfig: {
-    Roboto: {
-      100: {
-        normal: "Roboto-Light",
-        italic: "Roboto-LightItalic",
-      },
-      200: {
-        normal: "Roboto-Light",
-        italic: "Roboto-LightItalic",
-      },
-      300: {
-        normal: "Roboto-Light",
-        italic: "Roboto-LightItalic",
-      },
-      400: {
-        normal: "Roboto-Regular",
-        italic: "Roboto-Italic",
-      },
-      500: {
-        normal: "Roboto-Medium",
-      },
-      600: {
-        normal: "Roboto-Medium",
-        italic: "Roboto-MediumItalic",
-      },
+  colors: {
+    white: {
+      100: '#e5e5e5',
+    },
+    blue: {
+      100: '#4989b6',
+    },
+    gray: {
+      100: '#6b7280',
     },
   },
-
-  fonts: {
-    heading: "Roboto",
-    body: "Roboto",
-    mono: "Roboto",
+  components: {
+    Button: {
+      variants: {
+        homeBlue: variantHome(`blue.100`),
+        homeGray: variantHome(`gray.100`),
+      },
+    },
   },
 });

@@ -1,38 +1,37 @@
 import * as React from 'react';
-import {
-  Container,
-  Text,
-  Heading,
-  Center,
-  NativeBaseProvider,
-  Button,
-} from 'native-base';
+import { Container, Text, Center, Button, Image } from 'native-base';
 
 export const HomeScreen = () => {
   return (
-    <NativeBaseProvider>
-      <Center>
-        <Container
-          alignItems='center'
-          h='100%'
-          w='100%'
-          maxWidth='100%'
-          bg='#49404F'
-        >
-          <Heading color='emerald.600'>
-            Game <Text color='emerald.500'>Center</Text>
-          </Heading>
-          <Button fontSize={30} bg='#4989b6' h='5%' w='60%'>
+    <Center>
+      <Container
+        alignItems='center'
+        h='100%'
+        w='100%'
+        maxWidth='100%'
+        bg='#49404F'
+      >
+        <Image
+          source={require('../assets/game_logo.png')}
+          size={200}
+          alt='Logo'
+        />
+        <Button variant='homeBlue'>
+          <Text bold fontSize='2xl' color='white.100'>
             PLAY
-          </Button>
-          <Button bg='#4989b6' h='5%' w='60%'>
+          </Text>
+        </Button>
+        <Button variant='homeBlue'>
+          <Text bold fontSize='2xl' color='white.100'>
             ABOUT
-          </Button>
-          <Button bg='#4989b6' h='5%' w='60%'>
+          </Text>
+        </Button>
+        <Button variant='homeGray'>
+          <Text bold fontSize='2xl' color='white.100'>
             SETTINGS
-          </Button>
-        </Container>
-      </Center>
-    </NativeBaseProvider>
+          </Text>
+        </Button>
+      </Container>
+    </Center>
   );
 };
