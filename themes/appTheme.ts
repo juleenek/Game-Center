@@ -1,6 +1,8 @@
 import { extendTheme } from 'native-base';
 import { variantHome } from './variants/buttonVariants';
 import { variantButton } from './variants/textVariants';
+import { variantBasicContainer } from './variants/containerVariants';
+import { variantBasicHeading } from './variants/headingVariants';
 
 export const theme = extendTheme({
   colors: {
@@ -28,5 +30,15 @@ export const theme = extendTheme({
         textButton: variantButton,
       },
     },
+    Container: {
+      variants: {
+        basic: variantBasicContainer,
+      },
+    },
+    Heading: {
+      variants: {
+        basic: variantBasicHeading
+      }
+    }
   },
 });
