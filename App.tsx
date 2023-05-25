@@ -13,41 +13,6 @@ import { Audio } from "expo-av";
 import React from "react";
 
 export default function App() {
-  const [sound, setSound] = useState<Audio.Sound | null>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [finish, setFinish] = useState<boolean>(true);
-
-  const playSound = async () => {
-    const source = require("./assets/background-music.mp3");
-    const { sound } = await Audio.Sound.createAsync(source,
-      {
-        shouldPlay: true,
-        isLooping: true
-      }
-    );
-    setSound(sound);
-    if (sound != null) {
-      await sound.playAsync();
-      setIsPlaying(true)
-
-    }
-      else console.log("Sound not found.");
-  };
-
-  const stopSound = async () => {
-    if (sound != null) await sound.stopAsync();
-    else console.log("Sound not found");
-  };
-
-  React.useEffect(() => {
-    return sound
-      ? () => {
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound]);
-
-  ///////////
   let [fontsLoaded] = useFonts({
     Audiowide_400Regular,
     Aldrich_400Regular,
@@ -58,7 +23,6 @@ export default function App() {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
     }
-    playSound();
     prepare();
   }, []);
 
