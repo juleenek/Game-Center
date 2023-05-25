@@ -5,6 +5,7 @@ import { ParamListBase } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const BUTTONS_FONT_SIZE = '2xl';
+const IMAGE_BACKGROUND_SOURCE = '../assets/moon.jpg';
 
 export type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
@@ -15,7 +16,7 @@ export const HomeScreen = (props: Props) => {
 
   return (
     <ImageBackground
-      source={require('../assets/moon.jpg')}
+      source={require(IMAGE_BACKGROUND_SOURCE)}
       resizeMode='cover'
       imageStyle={{ opacity: 0.5 }}
     >
