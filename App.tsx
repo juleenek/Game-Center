@@ -8,7 +8,7 @@ import {
 import { AppNavigator } from './navigation/AppNavigator';
 import { theme } from './themes/appTheme';
 
-export const App = () => {
+export default function App() {
   let [fontsLoaded] = useFonts({
     Audiowide_400Regular,
     Aldrich_400Regular,
