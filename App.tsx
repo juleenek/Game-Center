@@ -30,7 +30,6 @@ export default function App() {
     setTimeout(() => {
       SplashScreen.hideAsync();
     }, 2000);
-    console.log("???")
   }
 
     return (
