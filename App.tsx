@@ -1,20 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NativeBaseProvider } from 'native-base';
+import {
+  useFonts,
+  Audiowide_400Regular,
+  Aldrich_400Regular,
+} from '@expo-google-fonts/dev';
+
+import { AppNavigator } from './navigation/AppNavigator';
+import { theme } from './themes/appTheme';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  let [fontsLoaded] = useFonts({
+    Audiowide_400Regular,
+    Aldrich_400Regular,
+  });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  if (!fontsLoaded) {
+    return <></>;
+  } else {
+    return (
+      <NativeBaseProvider theme={theme}>
+        <AppNavigator />
+      </NativeBaseProvider>
+    );
+  }
+};
