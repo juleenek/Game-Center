@@ -8,14 +8,14 @@ import {
 import { AppNavigator } from './navigation/AppNavigator';
 import { theme } from './themes/appTheme';
 
-export default function App() {
+export const App = () => {
   let [fontsLoaded] = useFonts({
     Audiowide_400Regular,
     Aldrich_400Regular,
   });
 
   if (!fontsLoaded) {
-    return;
+    return <></>;
   } else {
     return (
       <NativeBaseProvider theme={theme}>
@@ -23,4 +23,4 @@ export default function App() {
       </NativeBaseProvider>
     );
   }
-}
+};

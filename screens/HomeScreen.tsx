@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const BUTTONS_FONT_SIZE = '2xl';
 
-type Props = {
+export type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
 };
 
