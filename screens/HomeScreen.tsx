@@ -16,7 +16,7 @@ export const HomeScreen = (props: Props) => {
 
   return (
     <ImageBackground
-      source={require(IMAGE_BACKGROUND_SOURCE)}
+      source={IMAGE_BACKGROUND_SOURCE}
       resizeMode='cover'
       imageStyle={{ opacity: 0.5 }}
     >
