@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { Container, Text, Center, Button, Image, Heading } from 'native-base';
 import { ImageBackground } from 'react-native';
+import { IMAGE_BACKGROUND_SOURCE } from '../../utils/_shared';
 
-const IMAGE_BACKGROUND_SOURCE = '../../assets/moon.jpg';
 const BUTTONS_FONT_SIZE = '2xl';
 
 export const MemoryStartScreen = () => {
   return (
     <ImageBackground
-      source={require(IMAGE_BACKGROUND_SOURCE)}
+      source={IMAGE_BACKGROUND_SOURCE}
       resizeMode='cover'
       imageStyle={{ opacity: 0.5 }}
     >
