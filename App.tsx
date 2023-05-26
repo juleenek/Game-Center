@@ -1,18 +1,23 @@
+import React from "react";
 import { NativeBaseProvider } from "native-base";
+import { useEffect } from "react";
+import { AppNavigator } from "./navigation/AppNavigator";
+import { theme } from "./themes/appTheme";
+import { Audio } from "expo-av";
+import * as SplashScreen from "expo-splash-screen";
+import { useSoundService } from './services/SoundService'
 import {
   useFonts,
   Audiowide_400Regular,
   Aldrich_400Regular,
 } from "@expo-google-fonts/dev";
 
-import { AppNavigator } from "./navigation/AppNavigator";
-import { theme } from "./themes/appTheme";
-import { useEffect, useRef, useState } from "react";
-import * as SplashScreen from "expo-splash-screen";
-import { Audio } from "expo-av";
-import React from "react";
+
+
 
 export default function App() {
+  const { playSound, stopSound, isPlaying } = useSoundService();
+  
   let [fontsLoaded] = useFonts({
     Audiowide_400Regular,
     Aldrich_400Regular,
@@ -23,10 +28,12 @@ export default function App() {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
     }
+    //TUTAJ CALL playSound
+    playSound()
     prepare();
   }, []);
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded && isPlaying === false) {
     return undefined;
   } else {
     setTimeout(() => {
