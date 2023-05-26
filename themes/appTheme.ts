@@ -1,8 +1,9 @@
 import { extendTheme } from 'native-base';
 import { variantHome } from './variants/buttonVariants';
 import { variantButton } from './variants/textVariants';
-import { variantBasicContainer } from './variants/containerVariants';
+import { variantBasicContainer, settingsBasicContainer } from './variants/containerVariants';
 import { variantBasicHeading } from './variants/headingVariants';
+import { variantBasicSlider } from './variants/sliderVariants';
 
 export const theme = extendTheme({
   colors: {
@@ -33,11 +34,17 @@ export const theme = extendTheme({
     Container: {
       variants: {
         basic: variantBasicContainer,
+        settings: settingsBasicContainer
       },
     },
     Heading: {
       variants: {
         basic: variantBasicHeading
+      }
+    },
+    Slider: {
+      variants:{
+        basic: variantBasicSlider
       }
     }
   },

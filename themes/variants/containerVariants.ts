@@ -6,3 +6,13 @@ export const variantBasicContainer = () => {
     bg: '#2f1d3bb8',
   };
 };
+
+export const settingsBasicContainer = () => {
+  return {
+    h: '40%',
+    w: '70%',
+    maxWidth: '70%',
+    bg: 'grey',
+    
+  }
+}
