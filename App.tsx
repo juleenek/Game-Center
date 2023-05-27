@@ -8,10 +8,9 @@ import {
 import { AppNavigator } from './navigation/AppNavigator';
 import { theme } from './themes/appTheme';
 import { useEffect, useRef } from 'react';
-import * as SplashScreen from 'expo-splash-screen'
+import * as SplashScreen from 'expo-splash-screen';
 
 export default function App() {
-
   let [fontsLoaded] = useFonts({
     Audiowide_400Regular,
     Aldrich_400Regular,
@@ -32,10 +31,9 @@ export default function App() {
     }, 2000);
   }
 
-    return (
-      <NativeBaseProvider theme={theme}>
-        <AppNavigator />
-      </NativeBaseProvider>
-    );
-  
+  return (
+    <NativeBaseProvider theme={theme}>
+      <AppNavigator />
+    </NativeBaseProvider>
+  );
 }
