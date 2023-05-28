@@ -4,3 +4,8 @@ export const variantButton = () => {
     fontFamily: 'Audiowide_400Regular'
   };
 };
+export const variantValue = () => {
+  return{
+    fontFamily: 'Audiowide_400Regular'
+  }
+}

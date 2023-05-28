@@ -1,43 +1,51 @@
-import { useState, useEffect } from "react";
-import { Audio } from "expo-av";
+import { AVPlaybackStatus } from 'expo-av';
+import { Audio } from 'expo-av';
+export const SoundService = {
+  soundInstance: null as Audio.Sound | null,
 
-export const useSoundService = () => {
-  const [music, setMusic] = useState<Audio.Sound | null>(null);
-  let isPlaying: boolean = false;
-
-  const playMusic = async () => {
-    const source = require("../assets/background-music.mp3");
-    const { sound } = await Audio.Sound.createAsync(source, {
-      shouldPlay: true,
-      isLooping: true,
-      volume: 0.01, // temporary testing
-    });
-    setMusic(music);
-    if (music !== null) {
-      await music.playAsync();
-      isPlaying = true;
-    } else {
-      console.log("Sound not found.");
-    }
-  };
-
-  const playSound = async () => {};
-
-  const stopSound = async () => {
-    if (music !== null) {
-      await music.stopAsync();
-    } else {
-      console.log("Sound not found");
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (music !== null) {
-        music.unloadAsync();
+  async playMusic() {
+    try {
+      if (this.soundInstance) {
+        const status = await this.soundInstance.getStatusAsync();
+        if (status.isLoaded && status.positionMillis > 0) {
+          return; // Music is already playing, so return early
+        }
+        await this.soundInstance.playAsync();
+      } else {
+        const { sound } = await Audio.Sound.createAsync(
+          require("../assets/background-music.mp3"),
+          { shouldPlay: true, isLooping: true, volume: 0.01 }
+        );
+        this.soundInstance = sound;
       }
-    };
-  }, [music]);
+    } catch (error) {
+      console.error("Error playing music:", error);
+    }
+  },
+  
+  
 
-  return { playMusic, stopSound, isPlaying };
+  async stopMusic() {
+    try {
+      if (this.soundInstance) {
+        await this.soundInstance.stopAsync();
+        this.soundInstance = null;
+      }
+    } catch (error) {
+      console.error("Error stopping music:", error);
+    }
+  },
+
+  async isPlaying() {
+    try {
+      if (this.soundInstance) {
+        const status = await this.soundInstance.getStatusAsync();
+        return status && status.isLoaded && status.isPlaying && !status.isBuffering;
+      }
+    } catch (error) {
+      console.error("Error checking music status:", error);
+    }
+    return false;
+  }
+  
 };

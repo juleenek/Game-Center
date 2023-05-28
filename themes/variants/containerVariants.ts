@@ -12,7 +12,6 @@ export const settingsBasicContainer = () => {
     h: '40%',
     w: '70%',
     maxWidth: '70%',
-    bg: 'grey',
-    
+    bg: 'grey'
   }
 }

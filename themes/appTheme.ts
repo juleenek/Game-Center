@@ -1,9 +1,10 @@
 import { extendTheme } from 'native-base';
 import { variantHome } from './variants/buttonVariants';
-import { variantButton } from './variants/textVariants';
+import { variantButton, variantValue } from './variants/textVariants';
 import { variantBasicContainer, settingsBasicContainer } from './variants/containerVariants';
 import { variantBasicHeading } from './variants/headingVariants';
 import { variantBasicSlider } from './variants/sliderVariants';
+import { variantRowFlex } from './variants/flexVariants';
 
 export const theme = extendTheme({
   colors: {
@@ -29,6 +30,7 @@ export const theme = extendTheme({
     Text: {
       variants: {
         textButton: variantButton,
+        textValue: variantValue
       },
     },
     Container: {
@@ -46,6 +48,12 @@ export const theme = extendTheme({
       variants:{
         basic: variantBasicSlider
       }
+    },
+    Flex: {
+      variants:{
+        row: variantRowFlex
+      }
     }
+    
   },
 });
