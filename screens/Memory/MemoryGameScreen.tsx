@@ -13,8 +13,46 @@ type Props = NativeStackScreenProps<AppStackParamList, 'MemoryGame'>;
 
 export const MemoryGameScreen = ({ route, navigation }: Props) => {
   const { level } = route.params;
-  const { getCards } = useMemoryCards({ level });
-  const cards: MemoryCard[] = getCards();
+  const { getCards } = useMemoryCards();
+  const cards: MemoryCard[] = getCards(level);
+
+  const useChoices = () => {
+    const [choiceOne, setChoiceOne] = React.useState<MemoryCard | null>(null);
+    const [choiceTwo, setChoiceTwo] = React.useState<MemoryCard | null>(null);
+
+    React.useEffect(() => {
+      console.log(`one: ${choiceOne?.pairId} two: ${choiceTwo?.pairId}`);
+      if (choiceOne && choiceTwo) {
+        if (
+          choiceOne.pairId === choiceTwo.pairId &&
+          choiceOne.source === choiceTwo.source
+        ) {
+          console.log('DOBRZE');
+          resetTurn();
+        } else {
+          console.log('źle');
+          setTimeout(resetTurn, 1000); // Delay resetting the cards
+        }
+      }
+    }, [choiceOne, choiceTwo]);
+
+    const handleChoice = (card: MemoryCard) => {
+      if (choiceOne && choiceTwo) return;
+
+      if (choiceOne) {
+        setChoiceTwo(card);
+      } else {
+        setChoiceOne(card);
+      }
+    };
+
+    const resetTurn = () => {
+      setChoiceOne(null);
+      setChoiceTwo(null);
+    };
+
+    return { handleChoice };
+  };
 
   const getCardsComponents = () => {
     const cardComponents = [];
@@ -27,7 +65,9 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
         const cardElements = [];
 
         for (let j = index; j < index + loopParams.j; j++) {
-          cardElements.push(<Card key={key} card={cards[j]} />);
+          cardElements.push(
+            <Card useChoice={useChoices} key={key} card={cards[j]} />
+          );
           key += 1;
         }
 

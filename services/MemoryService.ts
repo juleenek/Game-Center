@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { MemoryCard } from '../types/Memory';
 import { randomNum } from '../utils/_generators';
 import { MemoryLevels } from '../utils/enums/levels.enum';
@@ -8,15 +9,11 @@ const MEDIUM_CARDS_NUMBER = 8;
 const HARD_CARDS_NUMBER = 12;
 const CARDS_IMAGES_NUMBER = 50;
 
-type Props = {
-  level: MemoryLevels;
-};
-
-export const useMemoryCards = (props: Props) => {
-  const { level } = props;
+export const useMemoryCards = () => {
   const cards: MemoryCard[] = [];
 
-  const getCards = () => {
+
+  const getCards = (level: MemoryLevels) => {
     let cardsNumber;
     const randomNums: number[] = [];
 
