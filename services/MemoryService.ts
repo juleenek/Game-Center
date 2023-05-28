@@ -5,7 +5,7 @@ import { IconsService } from './IconsService';
 
 const EASY_CARDS_NUMBER = 6;
 const MEDIUM_CARDS_NUMBER = 8;
-const HARD_CARDS_NUMBER = 10;
+const HARD_CARDS_NUMBER = 12;
 const CARDS_IMAGES_NUMBER = 50;
 
 type Props = {
