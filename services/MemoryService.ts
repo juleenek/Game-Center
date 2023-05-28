@@ -1,6 +1,7 @@
 import { MemoryCard } from '../types/Memory';
 import { randomNum } from '../utils/_generators';
 import { MemoryLevels } from '../utils/enums/levels.enum';
+import { IconsService } from './IconsService';
 
 const EASY_CARDS_NUMBER = 6;
 const MEDIUM_CARDS_NUMBER = 8;
@@ -17,6 +18,8 @@ export const useMemoryCards = (props: Props) => {
 
   const getCards = () => {
     let cardsNumber;
+    const randomNums: number[] = [];
+
     switch (level) {
       case MemoryLevels.EASY:
         cardsNumber = EASY_CARDS_NUMBER;
@@ -29,19 +32,38 @@ export const useMemoryCards = (props: Props) => {
         break;
     }
 
+    const getRandom: any = () => {
+      let num = randomNum(1, CARDS_IMAGES_NUMBER);
+      if (randomNums.includes(num)) {
+        return getRandom();
+      } else {
+        randomNums.push(num);
+        return num;
+      }
+    };
+
     for (let i = 1; i <= cardsNumber; i++) {
       const card: MemoryCard = {
         pairId: i,
         isVisible: false,
-        source: `../assets/cards/icon-${randomNum(1, CARDS_IMAGES_NUMBER)}.png`,
+        source: IconsService.GetImage(`icon-${getRandom()}.png`),
       };
       cards.push(card);
     }
 
-    return cards;
+    cards.push(...cards);
+    return shuffleCards(cards);
   };
 
-  const shuffleCards = () => {};
+  const shuffleCards = (cards: MemoryCard[]) => {
+    for (let i = cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp: any = cards[i];
+      cards[i] = cards[j];
+      cards[j] = temp;
+    }
+    return cards;
+  };
 
   return { getCards };
 };

@@ -1,7 +1,7 @@
 import { extendTheme } from 'native-base';
 import { variantHome } from './variants/buttonVariants';
 import { variantButton } from './variants/textVariants';
-import { variantBasicContainer } from './variants/containerVariants';
+import { variantBasicContainer, variantCard } from './variants/containerVariants';
 import { variantBasicHeading } from './variants/headingVariants';
 
 export const theme = extendTheme({
@@ -33,12 +33,13 @@ export const theme = extendTheme({
     Container: {
       variants: {
         basic: variantBasicContainer,
+        card: variantCard,
       },
     },
     Heading: {
       variants: {
-        basic: variantBasicHeading
-      }
-    }
+        basic: variantBasicHeading,
+      },
+    },
   },
 });

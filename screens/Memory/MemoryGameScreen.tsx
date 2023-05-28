@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Container, Text, Center } from 'native-base';
-import { ImageBackground } from 'react-native';
+import { Container, Text, Flex, Center } from 'native-base';
+import { ImageBackground, View } from 'react-native';
 import { IMAGE_BACKGROUND_SOURCE } from '../../utils/_shared';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AppStackParamList } from '../../navigation/AppNavigator';
@@ -14,6 +14,26 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
   const { level } = route.params;
   const { getCards } = useMemoryCards({ level });
   const cards: MemoryCard[] = getCards();
+  cards.push(...cards);
+
+  const getCardsComponents = () => {
+    const cardComponents = [];
+    let index = 0;
+
+    for (let i = 0; i < 6; i++) {
+      const cardElements = [];
+
+      for (let j = index; j < index + 2; j++) {
+        cardElements.push(<Card key={j} card={cards[j]} />);
+      }
+
+      index += 2;
+
+      cardComponents.push(<View key={i}>{cardElements}</View>);
+    }
+
+    return cardComponents;
+  };
 
   return (
     <ImageBackground
@@ -21,13 +41,9 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
       resizeMode='cover'
       imageStyle={{ opacity: 0.5 }}
     >
-      <Center>
-        <Container alignItems='center' variant='basic'>
-          <Text fontSize='3xl' variant='textButton'>
-            <Card card={cards[1]} onClick={undefined}></Card>
-          </Text>
-        </Container>
-      </Center>
+      <Container alignItems='center' variant='basic'>
+        <Flex direction='row'>{getCardsComponents()}</Flex>
+      </Container>
     </ImageBackground>
   );
 };

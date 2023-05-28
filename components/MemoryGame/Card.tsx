@@ -1,12 +1,25 @@
 import * as React from 'react';
-import { Container, Text, Center } from 'native-base';
+import { Container, Image } from 'native-base';
 import { MemoryCard } from '../../types/Memory';
+import { BACK_CARD_IMAGE } from '../../utils/_shared';
 
 type Props = {
   card: MemoryCard;
-  onClick: void;
 };
 
 export const Card = (props: Props) => {
-  return <Container alignItems='center' variant='basic'></Container>;
+  const { card } = props;
+
+  return (
+    <Container alignItems='center' variant='card'>
+      {/* <Image
+        w='100%'
+        h='100%'
+        source={BACK_CARD_IMAGE}
+        alt='Logo'
+        marginTop={35}
+      /> */}
+      <Image w='100%' h='100%' source={card.source} alt='Logo' marginTop={35} />
+    </Container>
+  );
 };
