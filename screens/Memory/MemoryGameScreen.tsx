@@ -8,7 +8,6 @@ import { useMemoryCards } from '../../services/MemoryService';
 import { Card } from '../../components/MemoryGame/Card';
 import { MemoryCard } from '../../types/Memory';
 import { getCardsFlexParams, getCardsNumber } from '../../utils/_generators';
-import { useTimer } from '../../hooks/timer';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'MemoryGame'>;
 export let goodPairs: any = [];
@@ -17,7 +16,6 @@ export let pairedCards: number[] = [];
 
 export const MemoryGameScreen = ({ route, navigation }: Props) => {
   const [finished, setFinished] = React.useState<boolean>(false);
-  let isFinished = false;
   const { level } = route.params;
   const { getCards } = useMemoryCards();
   const cards: MemoryCard[] = getCards(level);
@@ -25,18 +23,16 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
   let choiceTwo: null | MemoryCard = null;
   let choiceOneKey: null | number = null;
   let choiceTwoKey: null | number = null;
-  const [time, stopTime] = useTimer(1000);
+  let timeStart = Date.now();
+  let timeEnd;
+  let resultTime;
 
   React.useEffect(() => {
     goodPairs = [];
+    disabledCards = [];
+    pairedCards = [];
     setFinished(false);
   }, []);
-
-  React.useEffect(() => {
-    if (isFinished) {
-      console.log('WYGRANA');
-    }
-  }, [finished]);
 
   const handleChoice = (card: MemoryCard, cardKey: number) => {
     if (finished) return;
@@ -76,8 +72,11 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
 
         goodPairs.push(choiceOne);
         if (goodPairs.length === getCardsNumber(level)) {
-          isFinished = true;
+          console.log('WYGRANA');
           setFinished(true);
+          timeEnd = Date.now();
+          resultTime = Math.floor((timeEnd - timeStart) / 1000);
+          console.log(resultTime);
         }
       }
       if (choiceOne !== choiceTwo) {
@@ -140,7 +139,6 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
       imageStyle={{ opacity: 0.5 }}
     >
       <Center>
-        <Text marginTop={30}>{time as string}</Text>
         <Container alignItems='center' variant='basic'>
           {getCardsComponents()}
         </Container>
