@@ -18,7 +18,8 @@ export const Card = (props: Props) => {
   const sizes = getCardsSize(level);
 
   const handlePress = () => {
-    !isDisabled && handleChoice(card);
+    handleChoice(card);
+    console.log(isDisabled);
   };
 
   return (

@@ -4,6 +4,7 @@ import { randomNum } from '../utils/_generators';
 import { MemoryLevels } from '../utils/enums/levels.enum';
 import { IconsService } from './IconsService';
 
+
 const EASY_CARDS_NUMBER = 6;
 const MEDIUM_CARDS_NUMBER = 8;
 const HARD_CARDS_NUMBER = 12;
@@ -11,7 +12,6 @@ const CARDS_IMAGES_NUMBER = 50;
 
 export const useMemoryCards = () => {
   const cards: MemoryCard[] = [];
-
 
   const getCards = (level: MemoryLevels) => {
     let cardsNumber;
@@ -41,6 +41,7 @@ export const useMemoryCards = () => {
 
     for (let i = 1; i <= cardsNumber; i++) {
       const card: MemoryCard = {
+        id: '',
         pairId: i,
         isVisible: false,
         source: IconsService.GetImage(`icon-${getRandom()}.png`),
