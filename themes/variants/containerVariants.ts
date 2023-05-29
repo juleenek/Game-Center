@@ -1,3 +1,5 @@
+import { Dimensions } from 'react-native';
+
 export const variantBasicContainer = () => {
   return {
     h: '100%',
@@ -35,3 +37,10 @@ export const aboutBasicContainer = () => {
     paddingBottom: '10'
   }
 }
+
+export const variantCard = () => {
+  return {
+    h: `${Dimensions.get('window').width / 5}`,
+    w: `${Dimensions.get('window').width / 5}`,
+  };
+};

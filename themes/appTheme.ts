@@ -1,7 +1,7 @@
 import { extendTheme } from 'native-base';
 import { variantHome } from './variants/buttonVariants';
 import { variantButton, variantValue } from './variants/textVariants';
-import { variantBasicContainer, aboutBasicContainer, settingsBasicContainer } from './variants/containerVariants';
+import { variantBasicContainer, variantCard, aboutBasicContainer, settingsBasicContainer } from './variants/containerVariants';
 import { variantBasicHeading } from './variants/headingVariants';
 import { variantBasicSlider } from './variants/sliderVariants';
 import { variantRowFlex } from './variants/flexVariants';
@@ -36,14 +36,15 @@ export const theme = extendTheme({
     Container: {
       variants: {
         basic: variantBasicContainer,
+        card: variantCard,
         about: aboutBasicContainer,
         settings: settingsBasicContainer
       },
     },
     Heading: {
       variants: {
-        basic: variantBasicHeading
-      }
+        basic: variantBasicHeading,
+      },
     },
     Slider: {
       variants:{
@@ -54,7 +55,7 @@ export const theme = extendTheme({
       variants:{
         row: variantRowFlex
       }
-    }
+    },
     
   },
 });

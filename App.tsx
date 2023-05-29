@@ -8,7 +8,7 @@ import {
   Audiowide_400Regular,
   Aldrich_400Regular,
 } from "@expo-google-fonts/dev";
-import { SoundService } from "./services/SoundService";
+import { SoundService } from "./services/SoundService";;
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -34,8 +34,8 @@ export default function App() {
   }
 
   return (
-      <NativeBaseProvider theme={theme}>
-        <AppNavigator />
-      </NativeBaseProvider>
+    <NativeBaseProvider theme={theme}>
+      <AppNavigator />
+    </NativeBaseProvider>
   );
 }
