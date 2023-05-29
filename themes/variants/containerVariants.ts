@@ -8,7 +8,7 @@ export const variantBasicContainer = () => {
 };
 export const settingsBasicContainer = () => {
   return {
-    h: '45%',
+    h: '30%',
     w: '70%',
     maxWidth: '70%',
     bg: '#6b7280',

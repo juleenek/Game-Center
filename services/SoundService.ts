@@ -1,4 +1,3 @@
-import { AVPlaybackStatus } from 'expo-av';
 import { Audio } from 'expo-av';
 export const SoundService = {
   soundInstance: null as Audio.Sound | null,
@@ -8,7 +7,7 @@ export const SoundService = {
       if (this.soundInstance) {
         const status = await this.soundInstance.getStatusAsync();
         if (status.isLoaded && status.positionMillis > 0) {
-          return; // Music is already playing, so return early
+          return;
         }
         await this.soundInstance.playAsync();
       } else {

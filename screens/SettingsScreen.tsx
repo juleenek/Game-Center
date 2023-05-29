@@ -13,10 +13,9 @@ import { ImageBackground } from "react-native";
 import { SoundService } from "../services/SoundService";
 
 export const SettingsScreen = () => {
-  const [musicEnabled, setMusicEnabled] = useState(true); // Set the initial state to true
+  const [musicEnabled, setMusicEnabled] = useState(true); 
 
   useEffect(() => {
-    // Check the current status of music playback and update the switch state
     const checkMusicStatus = async () => {
       const isPlaying = await SoundService.isPlaying();
       setMusicEnabled(isPlaying);
@@ -53,7 +52,7 @@ export const SettingsScreen = () => {
             alt="Logo"
           />
           <Container alignItems="center" variant="settings">
-            <Heading fontSize="3xl" variant="basic">
+            <Heading fontSize="3xl" variant="basic" marginTop='8'>
               Settings
             </Heading>
             <Heading fontSize="3xl" variant="basic" paddingBottom="7">

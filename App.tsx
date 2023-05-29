@@ -8,7 +8,6 @@ import {
   Audiowide_400Regular,
   Aldrich_400Regular,
 } from "@expo-google-fonts/dev";
-import { Audio } from "expo-av";
 import { SoundService } from "./services/SoundService";
 
 export default function App() {
