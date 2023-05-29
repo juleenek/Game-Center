@@ -1,14 +1,14 @@
-import { NativeBaseProvider } from 'native-base';
+import React, { useEffect } from "react";
+import { NativeBaseProvider } from "native-base";
+import { AppNavigator } from "./navigation/AppNavigator";
+import { theme } from "./themes/appTheme";
+import * as SplashScreen from "expo-splash-screen";
 import {
   useFonts,
   Audiowide_400Regular,
   Aldrich_400Regular,
-} from '@expo-google-fonts/dev';
-
-import { AppNavigator } from './navigation/AppNavigator';
-import { theme } from './themes/appTheme';
-import { useEffect, useRef } from 'react';
-import * as SplashScreen from 'expo-splash-screen';
+} from "@expo-google-fonts/dev";
+import { SoundService } from "./services/SoundService";;
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -19,12 +19,14 @@ export default function App() {
   useEffect(() => {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
-    }
+      SoundService.playMusic();
+        }
     prepare();
   }, []);
 
+
   if (!fontsLoaded) {
-    return undefined;
+    return null;
   } else {
     setTimeout(() => {
       SplashScreen.hideAsync();
