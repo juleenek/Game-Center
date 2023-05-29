@@ -31,7 +31,24 @@ export const AboutScreen = () => {
             <Heading fontSize="3xl" variant="basic">
               About
             </Heading>
-            
+            <Heading fontSize="3xl" variant="basic" >
+              _________________
+            </Heading>
+            <Text
+            fontSize='sm'
+            color='white.100'
+            fontFamily='Aldrich_400Regular'
+            marginTop={35}
+          >
+            Mobile games application made by
+          </Text>
+          <Text
+            fontSize='sm'
+            color='white.100'
+            fontFamily='Aldrich_400Regular'
+          >
+            Julia Linek & Konrad Barszcz
+          </Text>
           </Container>
         </Container>
       </Center>
