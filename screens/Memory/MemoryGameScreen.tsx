@@ -8,6 +8,7 @@ import { useMemoryCards } from '../../services/MemoryService';
 import { Card } from '../../components/MemoryGame/Card';
 import { MemoryCard } from '../../types/Memory';
 import { getCardsFlexParams, getCardsNumber } from '../../utils/_generators';
+import { useTimer } from '../../hooks/timer';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'MemoryGame'>;
 export let goodPairs: any = [];
@@ -16,6 +17,7 @@ export let pairedCards: number[] = [];
 
 export const MemoryGameScreen = ({ route, navigation }: Props) => {
   const [finished, setFinished] = React.useState<boolean>(false);
+  let isFinished = false;
   const { level } = route.params;
   const { getCards } = useMemoryCards();
   const cards: MemoryCard[] = getCards(level);
@@ -23,11 +25,18 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
   let choiceTwo: null | MemoryCard = null;
   let choiceOneKey: null | number = null;
   let choiceTwoKey: null | number = null;
+  const [time, stopTime] = useTimer(1000);
 
   React.useEffect(() => {
     goodPairs = [];
     setFinished(false);
   }, []);
+
+  React.useEffect(() => {
+    if (isFinished) {
+      console.log('WYGRANA');
+    }
+  }, [finished]);
 
   const handleChoice = (card: MemoryCard, cardKey: number) => {
     if (finished) return;
@@ -44,7 +53,6 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
       choiceTwoKey = cardKey;
       disabledCards.push(cardKey);
       console.log(`one: ${choiceOne.pairId} two: ${choiceTwo.pairId}`);
-      // Odwróc jedną kartę
     }
 
     if (choiceOne === null) {
@@ -52,7 +60,6 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
       choiceOneKey = cardKey;
       disabledCards.push(cardKey);
       console.log(`one: ${choiceOne.pairId} two: ${choiceTwo?.pairId}`);
-      // Odwróc jedną kartę
     }
 
     if (choiceOne && choiceTwo) {
@@ -66,10 +73,10 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
 
         choiceOneKey = null;
         choiceTwoKey = null;
-        // Nie odwracaj kart
+
         goodPairs.push(choiceOne);
         if (goodPairs.length === getCardsNumber(level)) {
-          console.log('WYGRANA');
+          isFinished = true;
           setFinished(true);
         }
       }
@@ -79,7 +86,6 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
         choiceTwo = null;
         choiceOneKey = null;
         choiceTwoKey = null;
-        // Odwróć obie karty
         disabledCards = [];
       }
     }
@@ -134,6 +140,7 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
       imageStyle={{ opacity: 0.5 }}
     >
       <Center>
+        <Text marginTop={30}>{time as string}</Text>
         <Container alignItems='center' variant='basic'>
           {getCardsComponents()}
         </Container>
