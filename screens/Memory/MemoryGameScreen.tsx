@@ -12,6 +12,7 @@ import { getCardsFlexParams, getCardsNumber } from '../../utils/_generators';
 type Props = NativeStackScreenProps<AppStackParamList, 'MemoryGame'>;
 export let goodPairs: any = [];
 export let disabledCards: number[] = [];
+export let pairedCards: number[] = [];
 
 export const MemoryGameScreen = ({ route, navigation }: Props) => {
   const [finished, setFinished] = React.useState<boolean>(false);
@@ -20,6 +21,8 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
   const cards: MemoryCard[] = getCards(level);
   let choiceOne: null | MemoryCard = null;
   let choiceTwo: null | MemoryCard = null;
+  let choiceOneKey: null | number = null;
+  let choiceTwoKey: null | number = null;
 
   React.useEffect(() => {
     goodPairs = [];
@@ -29,11 +32,16 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
   const handleChoice = (card: MemoryCard, cardKey: number) => {
     if (finished) return;
     if (disabledCards[0] === cardKey || disabledCards[1] === cardKey) return;
-    
+
+    for (let i = 0; i < pairedCards.length; i++) {
+      if (pairedCards[i] === cardKey) return;
+    }
+
     console.log('key: ' + cardKey);
 
     if (choiceOne !== null && choiceTwo === null) {
       choiceTwo = card;
+      choiceTwoKey = cardKey;
       disabledCards.push(cardKey);
       console.log(`one: ${choiceOne.pairId} two: ${choiceTwo.pairId}`);
       // Odwróc jedną kartę
@@ -41,6 +49,7 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
 
     if (choiceOne === null) {
       choiceOne = card;
+      choiceOneKey = cardKey;
       disabledCards.push(cardKey);
       console.log(`one: ${choiceOne.pairId} two: ${choiceTwo?.pairId}`);
       // Odwróc jedną kartę
@@ -51,6 +60,12 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
         console.log('SUPER');
         choiceOne = null;
         choiceTwo = null;
+
+        pairedCards.push(choiceOneKey as number);
+        pairedCards.push(choiceTwoKey as number);
+
+        choiceOneKey = null;
+        choiceTwoKey = null;
         // Nie odwracaj kart
         goodPairs.push(choiceOne);
         if (goodPairs.length === getCardsNumber(level)) {
@@ -62,6 +77,8 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
         console.log('nie super');
         choiceOne = null;
         choiceTwo = null;
+        choiceOneKey = null;
+        choiceTwoKey = null;
         // Odwróć obie karty
         disabledCards = [];
       }
