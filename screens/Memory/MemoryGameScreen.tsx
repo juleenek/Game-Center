@@ -16,42 +16,29 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
   const { getCards } = useMemoryCards();
   const cards: MemoryCard[] = getCards(level);
 
-  const useChoices = () => {
-    const [choiceOne, setChoiceOne] = React.useState<MemoryCard | null>(null);
-    const [choiceTwo, setChoiceTwo] = React.useState<MemoryCard | null>(null);
+  let choiceOne: null | number = null;
+  let choiceTwo: null | number = null;
 
-    React.useEffect(() => {
-      console.log(`one: ${choiceOne?.pairId} two: ${choiceTwo?.pairId}`);
-      if (choiceOne && choiceTwo) {
-        if (
-          choiceOne.pairId === choiceTwo.pairId &&
-          choiceOne.source === choiceTwo.source
-        ) {
-          console.log('DOBRZE');
-          resetTurn();
-        } else {
-          console.log('źle');
-          setTimeout(resetTurn, 1000); // Delay resetting the cards
-        }
-      }
-    }, [choiceOne, choiceTwo]);
+  const handleChoice = (card: MemoryCard) => {
+    if (choiceOne !== null && choiceTwo === null) {
+      choiceTwo = card.pairId;
+      console.log(`one: ${choiceOne} two: ${choiceTwo}`);
+    }
+    if (choiceOne === null) {
+      choiceOne = card.pairId;
+      console.log(`one: ${choiceOne} two: ${choiceTwo}`);
+    }
 
-    const handleChoice = (card: MemoryCard) => {
-      if (choiceOne && choiceTwo) return;
-
-      if (choiceOne) {
-        setChoiceTwo(card);
-      } else {
-        setChoiceOne(card);
-      }
-    };
-
-    const resetTurn = () => {
-      setChoiceOne(null);
-      setChoiceTwo(null);
-    };
-
-    return { handleChoice };
+    if (choiceOne !== null && choiceTwo !== null && choiceOne === choiceTwo) {
+      console.log('SUPER');
+      choiceOne = null;
+      choiceTwo = null;
+    }
+    if (choiceOne !== null && choiceTwo !== null && choiceOne !== choiceTwo) {
+      console.log('nie super');
+      choiceOne = null;
+      choiceTwo = null;
+    }
   };
 
   const getCardsComponents = () => {
@@ -66,7 +53,7 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
 
         for (let j = index; j < index + loopParams.j; j++) {
           cardElements.push(
-            <Card useChoice={useChoices} key={key} card={cards[j]} />
+            <Card handleChoice={handleChoice} key={key} card={cards[j]} />
           );
           key += 1;
         }
