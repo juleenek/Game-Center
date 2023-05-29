@@ -52,7 +52,7 @@ export const SettingsScreen = () => {
             marginBottom={-35}
             alt="Logo"
           />
-          <Container alignItems="center" variant="setAb">
+          <Container alignItems="center" variant="settings">
             <Heading fontSize="3xl" variant="basic">
               Settings
             </Heading>

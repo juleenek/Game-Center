@@ -1,7 +1,7 @@
 import { extendTheme } from 'native-base';
 import { variantHome } from './variants/buttonVariants';
 import { variantButton, variantValue } from './variants/textVariants';
-import { variantBasicContainer, settingsAboutBasicContainer } from './variants/containerVariants';
+import { variantBasicContainer, aboutBasicContainer, settingsBasicContainer } from './variants/containerVariants';
 import { variantBasicHeading } from './variants/headingVariants';
 import { variantBasicSlider } from './variants/sliderVariants';
 import { variantRowFlex } from './variants/flexVariants';
@@ -36,7 +36,8 @@ export const theme = extendTheme({
     Container: {
       variants: {
         basic: variantBasicContainer,
-        setAb: settingsAboutBasicContainer
+        about: aboutBasicContainer,
+        settings: settingsBasicContainer
       },
     },
     Heading: {
