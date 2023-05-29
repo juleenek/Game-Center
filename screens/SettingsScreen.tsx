@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Container, Text, Center, Image, Heading, Flex, Spacer, Switch } from "native-base";
+import {
+  Container,
+  Text,
+  Center,
+  Image,
+  Heading,
+  Flex,
+  Spacer,
+  Switch,
+} from "native-base";
 import { ImageBackground } from "react-native";
-import { Audio } from "expo-av";
 import { SoundService } from "../services/SoundService";
 
 export const SettingsScreen = () => {
@@ -16,7 +24,7 @@ export const SettingsScreen = () => {
     checkMusicStatus();
   }, []);
 
-  const handleMusicToggle = async (isEnabled) => {
+  const handleMusicToggle = async (isEnabled: boolean) => {
     setMusicEnabled(isEnabled);
     if (isEnabled) {
       await SoundService.playMusic();
@@ -44,18 +52,23 @@ export const SettingsScreen = () => {
             marginBottom={-35}
             alt="Logo"
           />
-          <Container alignItems="center" variant="settings">
+          <Container alignItems="center" variant="setAb">
             <Heading fontSize="3xl" variant="basic">
-              Volume
+              Settings
+            </Heading>
+            <Heading fontSize="3xl" variant="basic" paddingBottom="7">
+              _________________
             </Heading>
             <Flex variant="row">
+              <Heading fontSize="2xl" variant="basic" marginRight="7" >
+                Music
+              </Heading>
               <Switch
                 size="lg"
-                colorScheme="indigo"
+                color="#337e88"
                 isChecked={musicEnabled}
                 onToggle={handleMusicToggle}
               />
-              <Spacer />
               <Text variant="textValue">{getSwitchText()}</Text>
             </Flex>
           </Container>

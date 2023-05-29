@@ -7,11 +7,16 @@ export const variantBasicContainer = () => {
   };
 };
 
-export const settingsBasicContainer = () => {
+export const settingsAboutBasicContainer = () => {
   return {
-    h: '40%',
+    h: '25%',
     w: '70%',
     maxWidth: '70%',
-    bg: 'grey'
+    bg: '#6b7280',
+    borderWidth: '1',
+    borderColor: '#337e88',
+    borderRadius: '10',
+    justifyContent: 'center',
+    shadow: '4',
   }
 }
