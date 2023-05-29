@@ -7,19 +7,18 @@ import { getCardsSize } from '../../utils/_generators';
 
 type Props = {
   card: MemoryCard;
-  handleChoice(card: MemoryCard): void;
+  handleChoice(card: MemoryCard, cardKey: number): void;
   level: MemoryLevels;
   isFlipped: boolean;
-  isDisabled: boolean;
+  cardKey: number;
 };
 
 export const Card = (props: Props) => {
-  const { card, level, isFlipped, isDisabled, handleChoice } = props;
+  const { card, level, isFlipped, cardKey, handleChoice } = props;
   const sizes = getCardsSize(level);
 
   const handlePress = () => {
-    handleChoice(card);
-    console.log(isDisabled);
+    handleChoice(card, cardKey);
   };
 
   return (
