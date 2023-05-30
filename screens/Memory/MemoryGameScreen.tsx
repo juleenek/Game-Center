@@ -8,6 +8,7 @@ import { useMemoryCards } from '../../services/MemoryService';
 import { Card } from '../../components/MemoryGame/Card';
 import { MemoryCard } from '../../types/Memory';
 import { getCardsFlexParams, getCardsNumber } from '../../utils/_generators';
+import { WinBoard } from '../../components/MemoryGame/WinBoard';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'MemoryGame'>;
 export let goodPairs: any = [];
@@ -16,6 +17,7 @@ export let pairedCards: number[] = [];
 
 export const MemoryGameScreen = ({ route, navigation }: Props) => {
   const [finished, setFinished] = React.useState<boolean>(false);
+  const [resultTime, setResultTime] = React.useState<number>(0);
   const { level } = route.params;
   const { getCards } = useMemoryCards();
   const cards: MemoryCard[] = getCards(level);
@@ -25,7 +27,6 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
   let choiceTwoKey: null | number = null;
   let timeStart = Date.now();
   let timeEnd;
-  let resultTime;
 
   React.useEffect(() => {
     goodPairs = [];
@@ -75,8 +76,7 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
           console.log('WYGRANA');
           setFinished(true);
           timeEnd = Date.now();
-          resultTime = Math.floor((timeEnd - timeStart) / 1000);
-          console.log(resultTime);
+          setResultTime(Math.floor((timeEnd - timeStart) / 1000));
         }
       }
       if (choiceOne !== choiceTwo) {
@@ -132,6 +132,12 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
     );
   };
 
+  const getWinBoard = () => {
+    return (
+      <WinBoard resultTime={resultTime} navigation={navigation}></WinBoard>
+    );
+  };
+
   return (
     <ImageBackground
       source={IMAGE_BACKGROUND_SOURCE}
@@ -140,6 +146,7 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
     >
       <Center>
         <Container alignItems='center' variant='basic'>
+          {finished ? getWinBoard() : null}
           {getCardsComponents()}
         </Container>
       </Center>
