@@ -15,14 +15,14 @@ import { ImageBackground, Linking } from "react-native";
 export const AboutScreen = () => {
   return (
     <ImageBackground
-      source={require("../assets/moon.jpg")}
+      source={require("../../assets/moon.jpg")}
       resizeMode="cover"
       imageStyle={{ opacity: 0.5 }}
     >
       <Center>
         <Container alignItems="center" variant="basic">
           <Image
-            source={require("../assets/game_logo.png")}
+            source={require("../../assets/game_logo.png")}
             size={200}
             marginTop={35}
             marginBottom={-35}

@@ -10,7 +10,7 @@ import {
   Switch,
 } from "native-base";
 import { ImageBackground } from "react-native";
-import { SoundService } from "../services/SoundService";
+import { SoundService } from "../../services/SoundService";
 
 export const SettingsScreen = () => {
   const [musicEnabled, setMusicEnabled] = useState(true); 
@@ -38,14 +38,14 @@ export const SettingsScreen = () => {
 
   return (
     <ImageBackground
-      source={require("../assets/moon.jpg")}
-      resizeMode="cover"
+    source={require("../../assets/moon.jpg")}
+    resizeMode="cover"
       imageStyle={{ opacity: 0.5 }}
     >
       <Center>
         <Container alignItems="center" variant="basic">
           <Image
-            source={require("../assets/game_logo.png")}
+            source={require("../../assets/game_logo.png")}
             size={200}
             marginTop={35}
             marginBottom={-35}

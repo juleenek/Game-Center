@@ -8,7 +8,14 @@ import { useMemoryCards } from '../../services/MemoryService';
 import { Card } from '../../components/MemoryGame/Card';
 import { MemoryCard } from '../../types/Memory';
 import { getCardsFlexParams, getCardsNumber } from '../../utils/_generators';
+import { db } from '../../services/Firebase';
+import firestore from '@react-native-firebase/firestore';
 
+firestore()
+  .collection('collection')
+  .onSnapshot((querySnapshot) => {
+     console.log(querySnapshot)
+  })
 type Props = NativeStackScreenProps<AppStackParamList, 'MemoryGame'>;
 export let goodPairs: any = [];
 export let disabledCards: number[] = [];
@@ -77,6 +84,11 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
           timeEnd = Date.now();
           resultTime = Math.floor((timeEnd - timeStart) / 1000);
           console.log(resultTime);
+
+          // Save result time to Firebase Firestore
+          // db.collection('results').add({
+          //   time: resultTime,
+          // });
         }
       }
       if (choiceOne !== choiceTwo) {

@@ -3,7 +3,7 @@ import { Container, Text, Center, Button, Image, Heading } from 'native-base';
 import { ImageBackground } from 'react-native';
 import { ParamListBase } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { IMAGE_BACKGROUND_SOURCE, IMAGE_LOGO_SOURCE } from '../utils/_shared';
+import { IMAGE_BACKGROUND_SOURCE, IMAGE_LOGO_SOURCE } from '../../utils/_shared';
 
 const BUTTONS_FONT_SIZE = '2xl';
 

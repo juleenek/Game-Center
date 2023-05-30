@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from '../screens/HomeScreen';
-import { AboutScreen } from '../screens/AboutScreen';
-import { SettingsScreen } from '../screens/SettingsScreen';
+import { HomeScreen } from '../screens/Home/HomeScreen';
+import { AboutScreen } from '../screens/Home/AboutScreen';
+import { SettingsScreen } from '../screens/Home/SettingsScreen';
 import { MemoryStartScreen } from '../screens/Memory/MemoryStartScreen';
 import { MemoryGameScreen } from '../screens/Memory/MemoryGameScreen';
 import { MemoryLevels } from '../utils/enums/levels.enum';

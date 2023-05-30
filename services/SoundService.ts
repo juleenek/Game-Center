@@ -13,7 +13,7 @@ export const SoundService = {
       } else {
         const { sound } = await Audio.Sound.createAsync(
           require("../assets/background-music.mp3"),
-          { shouldPlay: true, isLooping: true, volume: 0.01 }
+          { shouldPlay: true, isLooping: true, volume: 1 }
         );
         this.soundInstance = sound;
       }
