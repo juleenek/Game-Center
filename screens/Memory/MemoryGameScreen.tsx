@@ -21,7 +21,7 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
   const [iconOne, setIconOne] = useState<Icon | null>(null);
   const [iconTwo, setIconTwo] = useState<Icon | null>(null);
   const [noOfMatched, setNoOfMatched] = useState(0);
-  const time = Date.now();
+  const [time, _] = useState(Date.now());
   const { level } = route.params;
 
   let cardsNumber: number;
