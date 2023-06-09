@@ -1,48 +1,96 @@
 import * as React from 'react';
-import { Container, Image, Pressable } from 'native-base';
-import { MemoryCard } from '../../types/Memory';
-import { BACK_CARD_IMAGE } from '../../utils/_shared';
+import { Container } from 'native-base';
 import { MemoryLevels } from '../../utils/enums/levels.enum';
-import { getCardsSize } from '../../utils/_generators';
+import { useState, useEffect } from 'react';
+import { Icon } from '../../services/IconsService';
+import { TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { BACK_CARD_IMAGE } from '../../utils/_shared';
 
 type Props = {
-  card: MemoryCard;
-  handleChoice(card: MemoryCard, cardKey: number): void;
+  handleCard(icon: Icon): void;
   level: MemoryLevels;
-  isFlipped: boolean;
-  cardKey: number;
+  flipped: boolean;
+  icon: Icon;
 };
 
 export const Card = (props: Props) => {
-  const { card, level, isFlipped, cardKey, handleChoice } = props;
-  const sizes = getCardsSize(level);
+  const { level, flipped, icon, handleCard } = props;
 
-  const handlePress = () => {
-    handleChoice(card, cardKey);
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  useEffect(() => {
+    setIsFlipped(flipped);
+  }, [flipped]);
+
+  const cardClickHandle = () => {
+    if (!flipped && !isFlipped) {
+      setIsFlipped(true);
+      handleCard(icon);
+    }
+  };
+
+  const resetCard = () => {
+    setIsFlipped(false);
+  };
+
+  useEffect(() => {
+    if (flipped && !isFlipped) {
+      const timeout = setTimeout(resetCard, 1500);
+      return () => clearTimeout(timeout);
+    }
+  }, [flipped, isFlipped]);
+
+  const generate = () => {
+    if (flipped && isFlipped) {
+      return (
+        <Image
+          style={styles.cardImage}
+          source={icon.source}
+          resizeMode='contain'
+          alt='icon'
+        />
+      );
+    }
+    if (!flipped && !isFlipped) {
+      return (
+        <Image
+          style={styles.cardImage}
+          source={BACK_CARD_IMAGE}
+          resizeMode='contain'
+          alt='icon'
+        />
+      );
+    }
   };
 
   return (
-    <Container>
-      <Pressable
-        onPress={handlePress}
-        w={sizes.w}
-        h={sizes.h}
-        alignItems='center'
-        variant='card'
-        marginTop='5'
-        marginX='2'
+    <Container margin={5}>
+      <TouchableOpacity
+        onPress={cardClickHandle}
+        style={[styles.card, flipped ? styles.matched : null]}
       >
-        <Image
-          bg='#271e2d'
-          borderWidth='3'
-          borderColor='#ffffff'
-          w='100%'
-          h='100%'
-          source={card.source}
-          alt='Logo'
-          marginTop={35}
-        />
-      </Pressable>
+        {generate()}
+      </TouchableOpacity>
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  card: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transformStyle: 'preserve-3d',
+    transitionProperty: 'transform',
+    transitionDuration: '.7s',
+    backgroundColor: '#31263886',
+  },
+  matched: {
+    transform: [{ rotateY: '180deg' }],
+  },
+  cardImage: {
+    width: 80,
+    height: 80,
+  },
+});

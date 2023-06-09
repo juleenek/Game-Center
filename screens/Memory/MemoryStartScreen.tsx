@@ -1,12 +1,7 @@
 import * as React from 'react';
 import { Container, Text, Center, Button, Image, Heading } from 'native-base';
 import { ImageBackground } from 'react-native';
-import { ParamListBase } from '@react-navigation/native';
-import {
-  NativeStackNavigationProp,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
-
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   IMAGE_BACKGROUND_SOURCE,
   IMAGE_LOGO_SOURCE,
