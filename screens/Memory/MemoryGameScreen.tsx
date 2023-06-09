@@ -1,142 +1,95 @@
 import * as React from 'react';
-import { Container, Text, Flex, Center, Box } from 'native-base';
-import { ImageBackground, View } from 'react-native';
+import { Container, Center } from 'native-base';
+import { ImageBackground, View, StyleSheet } from 'react-native';
+import { useState, useEffect } from 'react';
 import { IMAGE_BACKGROUND_SOURCE } from '../../utils/_shared';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AppStackParamList } from '../../navigation/AppNavigator';
-import { useMemoryCards } from '../../services/MemoryService';
+import { IconsService, Icon } from '../../services/IconsService';
 import { Card } from '../../components/MemoryGame/Card';
-import { MemoryCard } from '../../types/Memory';
-import { getCardsFlexParams, getCardsNumber } from '../../utils/_generators';
 import { WinBoard } from '../../components/MemoryGame/WinBoard';
+import { MemoryLevels } from '../../utils/enums/levels.enum';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'MemoryGame'>;
-export let goodPairs: any = [];
-export let disabledCards: number[] = [];
-export let pairedCards: number[] = [];
+const EASY_CARDS_NUMBER = 6;
+const MEDIUM_CARDS_NUMBER = 8;
+const HARD_CARDS_NUMBER = 12;
 
 export const MemoryGameScreen = ({ route, navigation }: Props) => {
-  const [finished, setFinished] = React.useState<boolean>(false);
-  const [resultTime, setResultTime] = React.useState<number>(0);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [images, setImages] = useState<Icon[]>([]);
+  const [imageOne, setImageOne] = useState<Icon | null>(null);
+  const [imageTwo, setImageTwo] = useState<Icon | null>(null);
+  const [noOfMatched, setNoOfMatched] = useState(0);
+  const [time, _] = useState(Date.now());
   const { level } = route.params;
-  const { getCards } = useMemoryCards();
-  const cards: MemoryCard[] = getCards(level);
-  let choiceOne: null | MemoryCard = null;
-  let choiceTwo: null | MemoryCard = null;
-  let choiceOneKey: null | number = null;
-  let choiceTwoKey: null | number = null;
-  let timeStart = Date.now();
-  let timeEnd;
 
-  React.useEffect(() => {
-    goodPairs = [];
-    disabledCards = [];
-    pairedCards = [];
-    setFinished(false);
-  }, []);
+  let cardsNumber: number;
 
-  const handleChoice = (card: MemoryCard, cardKey: number) => {
-    if (finished) return;
-    if (disabledCards[0] === cardKey || disabledCards[1] === cardKey) return;
+  switch (level) {
+    case MemoryLevels.EASY:
+      cardsNumber = EASY_CARDS_NUMBER;
+      break;
+    case MemoryLevels.MEDIUM:
+      cardsNumber = MEDIUM_CARDS_NUMBER;
+      break;
+    case MemoryLevels.HARD:
+      cardsNumber = HARD_CARDS_NUMBER;
+      break;
+  }
 
-    for (let i = 0; i < pairedCards.length; i++) {
-      if (pairedCards[i] === cardKey) return;
-    }
+  const imagesItems = IconsService.cards
+    .sort((a, b) => 0.5 - Math.random())
+    .slice(0, cardsNumber / 2);
 
-    console.log('key: ' + cardKey);
-
-    if (choiceOne !== null && choiceTwo === null) {
-      choiceTwo = card;
-      choiceTwoKey = cardKey;
-      disabledCards.push(cardKey);
-      console.log(`one: ${choiceOne.pairId} two: ${choiceTwo.pairId}`);
-    }
-
-    if (choiceOne === null) {
-      choiceOne = card;
-      choiceOneKey = cardKey;
-      disabledCards.push(cardKey);
-      console.log(`one: ${choiceOne.pairId} two: ${choiceTwo?.pairId}`);
-    }
-
-    if (choiceOne && choiceTwo) {
-      if (choiceOne === choiceTwo) {
-        console.log('SUPER');
-        choiceOne = null;
-        choiceTwo = null;
-
-        pairedCards.push(choiceOneKey as number);
-        pairedCards.push(choiceTwoKey as number);
-
-        choiceOneKey = null;
-        choiceTwoKey = null;
-
-        goodPairs.push(choiceOne);
-        if (goodPairs.length === getCardsNumber(level)) {
-          console.log('WYGRANA');
-          setFinished(true);
-          timeEnd = Date.now();
-          setResultTime(Math.floor((timeEnd - timeStart) / 1000));
-        }
-      }
-      if (choiceOne !== choiceTwo) {
-        console.log('nie super');
-        choiceOne = null;
-        choiceTwo = null;
-        choiceOneKey = null;
-        choiceTwoKey = null;
-        disabledCards = [];
-      }
+  const chooseCard = (image: Icon) => {
+    if (!image.matched && !imageOne && !imageTwo) {
+      setImageOne(image);
+    } else if (
+      !image.matched &&
+      imageOne &&
+      !imageTwo &&
+      image.id !== imageOne.id
+    ) {
+      setImageTwo(image);
     }
   };
 
-  const getCardsComponents = () => {
-    const cardComponents = [];
-    const loopParams = getCardsFlexParams(level);
-    let index = 0;
-    let key = 0;
+  const initGame = () => {
+    const cards = cardsNumber;
+    const allImages = [...imagesItems, ...imagesItems]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, cards)
+      .map((item) => ({ ...item, id: Math.random() }));
+    setImages(allImages);
+  };
 
-    for (let k = 0; k < loopParams.k; k++) {
-      for (let i = 0; i < 2; i++) {
-        const cardElements = [];
+  useEffect(() => initGame(), []);
 
-        for (let j = index; j < index + loopParams.j; j++) {
-          cardElements.push(
-            <Card
-              cardKey={key}
-              handleChoice={handleChoice}
-              key={key}
-              card={cards[j]}
-              level={level}
-              isFlipped={cards[j] === choiceOne || cards[j] === choiceTwo}
-            />
-          );
-          key += 1;
-        }
-
-        index += loopParams.j;
-
-        cardComponents.push(
-          <Flex direction='row' key={key}>
-            {cardElements}
-          </Flex>
-        );
-        key += 1;
-      }
+  useEffect(() => {
+    if (noOfMatched === imagesItems.length) {
+      setModalVisible(true);
     }
 
-    return (
-      <Flex key={key} direction='column'>
-        {cardComponents}
-      </Flex>
-    );
-  };
-
-  const getWinBoard = () => {
-    return (
-      <WinBoard resultTime={resultTime} navigation={navigation}></WinBoard>
-    );
-  };
+    if (imageOne && imageTwo) {
+      if (imageOne.source === imageTwo.source) {
+        setNoOfMatched((no) => (no += 1));
+        setImages((prevImages) => {
+          return prevImages.map((item) => {
+            if (item.source === imageOne.source) {
+              return { ...item, matched: true };
+            } else {
+              return item;
+            }
+          });
+        });
+      }
+      setTimeout(() => {
+        setImageOne(null);
+        setImageTwo(null);
+      }, 300);
+    }
+  }, [imageOne, imageTwo]);
 
   return (
     <ImageBackground
@@ -146,10 +99,81 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
     >
       <Center>
         <Container alignItems='center' variant='basic'>
-          {finished ? getWinBoard() : null}
-          {getCardsComponents()}
+          {modalVisible ? (
+            <WinBoard resultTime={time} navigation={navigation}></WinBoard>
+          ) : (
+            <>
+              <View style={styles.memoryBoardContainer}>
+                <View style={styles.memoryBoard}>
+                  <View>
+                    {images.length ? (
+                      <View style={styles.gameBlock}>
+                        {images.map((image, key) => {
+                          return (
+                            <Card
+                              level={level}
+                              key={key}
+                              chooseCard={chooseCard}
+                              flipped={
+                                image === imageOne ||
+                                image === imageTwo ||
+                                image.matched
+                              }
+                              image={image}
+                            />
+                          );
+                        })}
+                      </View>
+                    ) : (
+                      <></>
+                    )}
+                  </View>
+                </View>
+              </View>
+            </>
+          )}
         </Container>
       </Center>
     </ImageBackground>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
+  buttons: {
+    backgroundColor: '#f4a44e',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+    width: 300,
+    marginBottom: 20,
+  },
+  buttonsText: {
+    color: '#fff',
+    fontSize: 24,
+    textAlign: 'center',
+  },
+  memoryBoardContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  memoryBoard: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginTop: 24,
+    height: 100,
+  },
+  gameBlock: {
+    justifyContent: 'center',
+    flexBasis: '80%',
+    flexWrap: 'wrap',
+    margin: 120,
+    padding: 30,
+  },
+});

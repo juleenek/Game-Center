@@ -1,48 +1,145 @@
 import * as React from 'react';
-import { Container, Image, Pressable } from 'native-base';
-import { MemoryCard } from '../../types/Memory';
-import { BACK_CARD_IMAGE } from '../../utils/_shared';
+import { Container, Pressable } from 'native-base';
 import { MemoryLevels } from '../../utils/enums/levels.enum';
+import { useState, useEffect } from 'react';
 import { getCardsSize } from '../../utils/_generators';
+import { Icon } from '../../services/IconsService';
+import { TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 type Props = {
-  card: MemoryCard;
-  handleChoice(card: MemoryCard, cardKey: number): void;
+  chooseCard(image: Icon): void;
   level: MemoryLevels;
-  isFlipped: boolean;
-  cardKey: number;
+  flipped: boolean;
+  image: Icon;
 };
 
 export const Card = (props: Props) => {
-  const { card, level, isFlipped, cardKey, handleChoice } = props;
+  const { level, flipped, image, chooseCard } = props;
   const sizes = getCardsSize(level);
 
-  const handlePress = () => {
-    handleChoice(card, cardKey);
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  useEffect(() => {
+    setIsFlipped(flipped);
+  }, [flipped]);
+
+  const cardClickHandle = () => {
+    if (!flipped && !isFlipped) {
+      setIsFlipped(true);
+      chooseCard(image);
+    }
+  };
+
+  const resetCard = () => {
+    setIsFlipped(false);
+  };
+
+  const questionMark = require('../../assets/cart-back.png');
+
+  useEffect(() => {
+    if (flipped && !isFlipped) {
+      const timeout = setTimeout(resetCard, 1000); // Zresetuj kartę po 1 sekundzie
+      return () => clearTimeout(timeout);
+    }
+    console.log(`flipped: ${flipped}, isFlipped: ${isFlipped}`);
+  }, [flipped, isFlipped]);
+
+  const generate = () => {
+    if (flipped && isFlipped) {
+      return (
+        <Image
+          testID='question-mark-image'
+          style={styles.cardImageEasy}
+          source={image.source}
+          resizeMode='contain'
+          alt='icon'
+        />
+      );
+    }
+    if (!flipped && !isFlipped) {
+      return <Image
+        style={styles.questionMark}
+        source={questionMark}
+        resizeMode='contain'
+        alt='icon'
+      />;
+    }
   };
 
   return (
     <Container>
-      <Pressable
-        onPress={handlePress}
-        w={sizes.w}
-        h={sizes.h}
-        alignItems='center'
-        variant='card'
-        marginTop='5'
-        marginX='2'
+      <TouchableOpacity
+        onPress={cardClickHandle}
+        style={[styles.cardEasy, flipped ? styles.matched : null]}
       >
-        <Image
-          bg='#271e2d'
-          borderWidth='3'
-          borderColor='#ffffff'
-          w='100%'
-          h='100%'
-          source={card.source}
-          alt='Logo'
-          marginTop={35}
-        />
-      </Pressable>
+        {generate()}
+      </TouchableOpacity>
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  cardEasy: {
+    width: 100,
+    height: 120,
+    borderRadius: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transformStyle: 'preserve-3d',
+    transitionProperty: 'transform',
+    transitionDuration: '.7s',
+    cursor: 'pointer',
+    margin: 5,
+  },
+  cardMedium: {
+    width: 80,
+    height: 90,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transformStyle: 'preserve-3d',
+    transitionProperty: 'transform',
+    transitionDuration: '.7s',
+    cursor: 'pointer',
+    margin: 5,
+  },
+  cardHard: {
+    width: 60,
+    height: 70,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transformStyle: 'preserve-3d',
+    transitionProperty: 'transform',
+    transitionDuration: '.7s',
+    cursor: 'pointer',
+    margin: 3,
+  },
+  matched: {
+    transform: [{ rotateY: '180deg' }],
+  },
+  questionMark: {
+    width: 60,
+    height: 60,
+  },
+  cardImageEasy: {
+    width: 80,
+    height: 80,
+  },
+  cardImageMedium: {
+    width: 70,
+    height: 70,
+  },
+  cardImageHard: {
+    width: 50,
+    height: 50,
+  },
+});
