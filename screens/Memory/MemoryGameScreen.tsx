@@ -14,13 +14,15 @@ import { Card } from "../../components/MemoryGame/Card";
 import { WinBoard } from "../../components/MemoryGame/WinBoard";
 import { IconsService, Icon } from "../../services/IconsService";
 import { IMAGE_BACKGROUND_SOURCE } from "../../utils/_shared";
+import { MemoryLevels } from "../../utils/enums/levels.enum";
 
 type Props = NativeStackScreenProps<AppStackParamList, "MemoryGame">;
+const EASY_CARDS_NUMBER = 6;
+const MEDIUM_CARDS_NUMBER = 8;
+const HARD_CARDS_NUMBER = 12;
 
 export const MemoryGameScreen = ({ route, navigation }: Props) => {
-  const icons = IconsService.cards
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
+  
 
   const [modalVisible, setModalVisible] = useState(false);
   const [images, setImages] = useState<Icon[]>([]);
@@ -29,6 +31,23 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
   const [noOfMatched, setNoOfMatched] = useState(0);
   const [time, _] = useState(Date.now());
   const { level } = route.params;
+ 
+  let cardsNumber: number;
+ 
+  switch (level) {
+    case MemoryLevels.EASY:
+      cardsNumber = EASY_CARDS_NUMBER;
+      break;
+    case MemoryLevels.MEDIUM:
+      cardsNumber = MEDIUM_CARDS_NUMBER;
+      break;
+    case MemoryLevels.HARD:
+      cardsNumber = HARD_CARDS_NUMBER;
+      break;
+  }
+  const icons = IconsService.cards
+  .sort(() => Math.random() - 0.5)
+  .slice(0, cardsNumber / 2);
 
   const chooseCard = (image: Icon) => {
     if (!image.matched && !iconOne && !iconTwo) {
@@ -44,7 +63,7 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
   };
 
   const initGame = () => {
-    const cards = 6;
+     const cards = cardsNumber;
     const allImages = [...icons, ...icons]
       .sort(() => Math.random() - 0.5)
       .slice(0, cards)
@@ -124,14 +143,6 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
                   </View>
                 </View>
               </View>
-              <TouchableOpacity
-                style={styles.buttons}
-                onPress={() => navigation.navigate("MemoryStart")}
-              >
-                <Text style={styles.buttonsText}>
-                  Go back to level selection
-                </Text>
-              </TouchableOpacity>
             </>
           )}
         </Container>
