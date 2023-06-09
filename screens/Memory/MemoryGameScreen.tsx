@@ -1,135 +1,94 @@
 import * as React from 'react';
-import { Container, Text, Flex, Center, Box } from 'native-base';
-import { ImageBackground, View } from 'react-native';
-import { IMAGE_BACKGROUND_SOURCE } from '../../utils/_shared';
+import { useState, useEffect } from 'react';
+import { ImageBackground, View, StyleSheet } from 'react-native';
+import { Container, Center } from 'native-base';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AppStackParamList } from '../../navigation/AppNavigator';
-import { useMemoryCards } from '../../services/MemoryService';
 import { Card } from '../../components/MemoryGame/Card';
-import { MemoryCard } from '../../types/Memory';
-import { getCardsFlexParams, getCardsNumber } from '../../utils/_generators';
+import { WinBoard } from '../../components/MemoryGame/WinBoard';
+import { IconsService, Icon } from '../../services/IconsService';
+import { IMAGE_BACKGROUND_SOURCE } from '../../utils/_shared';
+import { MemoryLevels } from '../../utils/enums/levels.enum';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'MemoryGame'>;
-export let goodPairs: any = [];
-export let disabledCards: number[] = [];
-export let pairedCards: number[] = [];
+const EASY_CARDS_NUMBER = 6;
+const MEDIUM_CARDS_NUMBER = 8;
+const HARD_CARDS_NUMBER = 12;
 
 export const MemoryGameScreen = ({ route, navigation }: Props) => {
-  const [finished, setFinished] = React.useState<boolean>(false);
+  const [finished, setFinished] = useState(false);
+  const [icons, setIcons] = useState<Icon[]>([]);
+  const [iconOne, setIconOne] = useState<Icon | null>(null);
+  const [iconTwo, setIconTwo] = useState<Icon | null>(null);
+  const [noOfMatched, setNoOfMatched] = useState(0);
+  const [time, _] = useState(Date.now());
   const { level } = route.params;
-  const { getCards } = useMemoryCards();
-  const cards: MemoryCard[] = getCards(level);
-  let choiceOne: null | MemoryCard = null;
-  let choiceTwo: null | MemoryCard = null;
-  let choiceOneKey: null | number = null;
-  let choiceTwoKey: null | number = null;
-  let timeStart = Date.now();
-  let timeEnd;
-  let resultTime;
 
-  React.useEffect(() => {
-    goodPairs = [];
-    disabledCards = [];
-    pairedCards = [];
-    setFinished(false);
-  }, []);
+  let cardsNumber: number;
 
-  const handleChoice = (card: MemoryCard, cardKey: number) => {
-    if (finished) return;
-    if (disabledCards[0] === cardKey || disabledCards[1] === cardKey) return;
+  switch (level) {
+    case MemoryLevels.EASY:
+      cardsNumber = EASY_CARDS_NUMBER;
+      break;
+    case MemoryLevels.MEDIUM:
+      cardsNumber = MEDIUM_CARDS_NUMBER;
+      break;
+    case MemoryLevels.HARD:
+      cardsNumber = HARD_CARDS_NUMBER;
+      break;
+  }
+  const iconsSet = IconsService.cards
+    .sort(() => Math.random() - 0.5)
+    .slice(0, cardsNumber / 2);
 
-    for (let i = 0; i < pairedCards.length; i++) {
-      if (pairedCards[i] === cardKey) return;
-    }
-
-    console.log('key: ' + cardKey);
-
-    if (choiceOne !== null && choiceTwo === null) {
-      choiceTwo = card;
-      choiceTwoKey = cardKey;
-      disabledCards.push(cardKey);
-      console.log(`one: ${choiceOne.pairId} two: ${choiceTwo.pairId}`);
-    }
-
-    if (choiceOne === null) {
-      choiceOne = card;
-      choiceOneKey = cardKey;
-      disabledCards.push(cardKey);
-      console.log(`one: ${choiceOne.pairId} two: ${choiceTwo?.pairId}`);
-    }
-
-    if (choiceOne && choiceTwo) {
-      if (choiceOne === choiceTwo) {
-        console.log('SUPER');
-        choiceOne = null;
-        choiceTwo = null;
-
-        pairedCards.push(choiceOneKey as number);
-        pairedCards.push(choiceTwoKey as number);
-
-        choiceOneKey = null;
-        choiceTwoKey = null;
-
-        goodPairs.push(choiceOne);
-        if (goodPairs.length === getCardsNumber(level)) {
-          console.log('WYGRANA');
-          setFinished(true);
-          timeEnd = Date.now();
-          resultTime = Math.floor((timeEnd - timeStart) / 1000);
-          console.log(resultTime);
-        }
-      }
-      if (choiceOne !== choiceTwo) {
-        console.log('nie super');
-        choiceOne = null;
-        choiceTwo = null;
-        choiceOneKey = null;
-        choiceTwoKey = null;
-        disabledCards = [];
-      }
+  const handleCard = (icon: Icon) => {
+    if (!icon.matched && !iconOne && !iconTwo) {
+      setIconOne(icon);
+    } else if (!icon.matched && iconOne && !iconTwo && icon.id !== iconOne.id) {
+      setIconTwo(icon);
     }
   };
 
-  const getCardsComponents = () => {
-    const cardComponents = [];
-    const loopParams = getCardsFlexParams(level);
-    let index = 0;
-    let key = 0;
+  const initGame = () => {
+    const cards = cardsNumber;
+    const allIcons = [...iconsSet, ...iconsSet]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, cards)
+      .map((icon) => ({ ...icon, id: Math.random() }));
+    setIcons(allIcons);
+  };
 
-    for (let k = 0; k < loopParams.k; k++) {
-      for (let i = 0; i < 2; i++) {
-        const cardElements = [];
+  useEffect(() => initGame(), []);
 
-        for (let j = index; j < index + loopParams.j; j++) {
-          cardElements.push(
-            <Card
-              cardKey={key}
-              handleChoice={handleChoice}
-              key={key}
-              card={cards[j]}
-              level={level}
-              isFlipped={cards[j] === choiceOne || cards[j] === choiceTwo}
-            />
-          );
-          key += 1;
-        }
-
-        index += loopParams.j;
-
-        cardComponents.push(
-          <Flex direction='row' key={key}>
-            {cardElements}
-          </Flex>
-        );
-        key += 1;
-      }
+  useEffect(() => {
+    if (noOfMatched === iconsSet.length) {
+      setFinished(true);
     }
 
-    return (
-      <Flex key={key} direction='column'>
-        {cardComponents}
-      </Flex>
-    );
+    if (iconOne && iconTwo) {
+      if (iconOne.source === iconTwo.source) {
+        setNoOfMatched((no) => (no += 1));
+        setIcons((prevIcons) => {
+          return prevIcons.map((icon) => {
+            if (icon.source === iconOne.source) {
+              return { ...icon, matched: true };
+            } else {
+              return icon;
+            }
+          });
+        });
+      }
+      setTimeout(() => {
+        setIconOne(null);
+        setIconTwo(null);
+      }, 300);
+    }
+  }, [iconOne, iconTwo]);
+
+  const calcTime = () => {
+    const currentTime = Date.now();
+    const timeResult = Math.floor((currentTime - time) / 1000);
+    return timeResult;
   };
 
   return (
@@ -140,9 +99,44 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
     >
       <Center>
         <Container alignItems='center' variant='basic'>
-          {getCardsComponents()}
+          {finished ? (
+            <WinBoard resultTime={calcTime()} navigation={navigation} />
+          ) : (
+            <>
+              {icons.length ? (
+                <View style={styles.boardGame}>
+                  {icons.map((icon, key) => {
+                    return (
+                      <Card
+                        level={level}
+                        key={key}
+                        handleCard={handleCard}
+                        flipped={
+                          icon === iconOne || icon === iconTwo || icon.matched
+                        }
+                        icon={icon}
+                      />
+                    );
+                  })}
+                </View>
+              ) : (
+                <></>
+              )}
+            </>
+          )}
         </Container>
       </Center>
     </ImageBackground>
   );
 };
+
+const styles = StyleSheet.create({
+  boardGame: {
+    width: '100%',
+    justifyContent: 'center',
+    height: '100%',
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
+});
