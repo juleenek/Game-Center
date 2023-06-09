@@ -1,20 +1,21 @@
 import * as React from 'react';
-import { Container, Pressable } from 'native-base';
+import { Container  } from 'native-base';
 import { MemoryLevels } from '../../utils/enums/levels.enum';
 import { useState, useEffect } from 'react';
 import { getCardsSize } from '../../utils/_generators';
 import { Icon } from '../../services/IconsService';
 import { TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { BACK_CARD_IMAGE } from '../../utils/_shared'
 
 type Props = {
-  chooseCard(image: Icon): void;
+  handleCard(icon: Icon): void;
   level: MemoryLevels;
   flipped: boolean;
-  image: Icon;
+  icon: Icon;
 };
 
 export const Card = (props: Props) => {
-  const { level, flipped, image, chooseCard } = props;
+  const { level, flipped, icon, handleCard } = props;
   const sizes = getCardsSize(level);
 
   const [isFlipped, setIsFlipped] = useState(false);
@@ -26,7 +27,7 @@ export const Card = (props: Props) => {
   const cardClickHandle = () => {
     if (!flipped && !isFlipped) {
       setIsFlipped(true);
-      chooseCard(image);
+      handleCard(icon);
     }
   };
 
@@ -34,23 +35,19 @@ export const Card = (props: Props) => {
     setIsFlipped(false);
   };
 
-  const questionMark = require('../../assets/cart-back.png');
-
   useEffect(() => {
     if (flipped && !isFlipped) {
-      const timeout = setTimeout(resetCard, 1000); // Zresetuj kartę po 1 sekundzie
+      const timeout = setTimeout(resetCard, 1500);
       return () => clearTimeout(timeout);
     }
-    console.log(`flipped: ${flipped}, isFlipped: ${isFlipped}`);
   }, [flipped, isFlipped]);
 
   const generate = () => {
     if (flipped && isFlipped) {
       return (
         <Image
-          testID='question-mark-image'
           style={styles.cardImageEasy}
-          source={image.source}
+          source={icon.source}
           resizeMode='contain'
           alt='icon'
         />
@@ -59,7 +56,7 @@ export const Card = (props: Props) => {
     if (!flipped && !isFlipped) {
       return <Image
         style={styles.questionMark}
-        source={questionMark}
+        source={BACK_CARD_IMAGE}
         resizeMode='contain'
         alt='icon'
       />;

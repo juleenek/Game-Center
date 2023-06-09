@@ -24,12 +24,12 @@ const HARD_CARDS_NUMBER = 12;
 export const MemoryGameScreen = ({ route, navigation }: Props) => {
   
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [images, setImages] = useState<Icon[]>([]);
+  const [finished, setFinished] = useState(false);
+  const [icons, setIcons] = useState<Icon[]>([]);
   const [iconOne, setIconOne] = useState<Icon | null>(null);
   const [iconTwo, setIconTwo] = useState<Icon | null>(null);
   const [noOfMatched, setNoOfMatched] = useState(0);
-  const [time, _] = useState(Date.now());
+  const time = Date.now();
   const { level } = route.params;
  
   let cardsNumber: number;
@@ -45,43 +45,43 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
       cardsNumber = HARD_CARDS_NUMBER;
       break;
   }
-  const icons = IconsService.cards
+  const iconsSet = IconsService.cards
   .sort(() => Math.random() - 0.5)
   .slice(0, cardsNumber / 2);
 
-  const chooseCard = (image: Icon) => {
-    if (!image.matched && !iconOne && !iconTwo) {
-      setIconOne(image);
+  const handleCard = (icon: Icon) => {
+    if (!icon.matched && !iconOne && !iconTwo) {
+      setIconOne(icon);
     } else if (
-      !image.matched &&
+      !icon.matched &&
       iconOne &&
       !iconTwo &&
-      image.id !== iconOne.id
+      icon.id !== iconOne.id
     ) {
-      setIconTwo(image);
+      setIconTwo(icon);
     }
   };
 
   const initGame = () => {
      const cards = cardsNumber;
-    const allImages = [...icons, ...icons]
+    const allIcons = [...iconsSet, ...iconsSet]
       .sort(() => Math.random() - 0.5)
       .slice(0, cards)
       .map((icon) => ({ ...icon, id: Math.random() }));
-    setImages(allImages);
+    setIcons(allIcons);
   };
 
   useEffect(() => initGame(), []);
 
   useEffect(() => {
-    if (noOfMatched === icons.length) {
-      setModalVisible(true);
+    if (noOfMatched === iconsSet.length) {
+      setFinished(true);
     }
 
     if (iconOne && iconTwo) {
       if (iconOne.source === iconTwo.source) {
         setNoOfMatched((no) => (no += 1));
-        setImages((prevIcons) => {
+        setIcons((prevIcons) => {
           return prevIcons.map((icon) => {
             if (icon.source === iconOne.source) {
               return { ...icon, matched: true };
@@ -101,7 +101,7 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
   const calcTime = () => {
     const currentTime = Date.now();
     const timeResult = Math.floor((currentTime - time) / 1000);
-    return timeResult;
+    return timeResult
   };
 
   return (
@@ -112,27 +112,27 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
     >
       <Center>
         <Container alignItems="center" variant="basic">
-          {modalVisible ? (
+          {finished ? (
             <WinBoard resultTime={calcTime()} navigation={navigation} />
           ) : (
             <>
               <View style={styles.memoryBoardContainer}>
                 <View style={styles.memoryBoard}>
                   <View>
-                    {images.length ? (
+                    {icons.length ? (
                       <View style={styles.gameBlock}>
-                        {images.map((image, key) => {
+                        {icons.map((icon, key) => {
                           return (
                             <Card
                               level={level}
                               key={key}
-                              chooseCard={chooseCard}
+                              handleCard={handleCard}
                               flipped={
-                                image === iconOne ||
-                                image === iconTwo ||
-                                image.matched
+                                icon === iconOne ||
+                                icon === iconTwo ||
+                                icon.matched
                               }
-                              image={image}
+                              icon={icon}
                             />
                           );
                         })}
