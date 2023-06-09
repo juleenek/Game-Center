@@ -277,7 +277,7 @@ export class IconsService {
       matched: false,
     },
     {
-      id: 46, 
+      id: 46,
       name: 'icon-46.png',
       source: require('../assets/cards/icon-46.png'),
       matched: false,
@@ -307,9 +307,4 @@ export class IconsService {
       matched: false,
     },
   ];
-
-  static GetIcon = (name: string) => {
-    const found = IconsService.cards.find((e) => e.name === name);
-    return found ? found.source : null;
-  };
 }
