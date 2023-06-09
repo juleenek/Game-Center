@@ -8,14 +8,14 @@ import { AppStackParamList } from '../../navigation/AppNavigator';
 import { IconsService, Icon } from '../../services/IconsService';
 import { Card } from '../../components/MemoryGame/Card';
 import { WinBoard } from '../../components/MemoryGame/WinBoard';
-import { MemoryLevels } from '../../utils/enums/levels.enum';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'MemoryGame'>;
-const EASY_CARDS_NUMBER = 6;
-const MEDIUM_CARDS_NUMBER = 8;
-const HARD_CARDS_NUMBER = 12;
 
 export const MemoryGameScreen = ({ route, navigation }: Props) => {
+  const imagesItems = IconsService.cards
+    .sort((a, b) => 0.5 - Math.random())
+    .slice(0, 3);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [images, setImages] = useState<Icon[]>([]);
   const [imageOne, setImageOne] = useState<Icon | null>(null);
@@ -23,24 +23,6 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
   const [noOfMatched, setNoOfMatched] = useState(0);
   const [time, _] = useState(Date.now());
   const { level } = route.params;
-
-  let cardsNumber: number;
-
-  switch (level) {
-    case MemoryLevels.EASY:
-      cardsNumber = EASY_CARDS_NUMBER;
-      break;
-    case MemoryLevels.MEDIUM:
-      cardsNumber = MEDIUM_CARDS_NUMBER;
-      break;
-    case MemoryLevels.HARD:
-      cardsNumber = HARD_CARDS_NUMBER;
-      break;
-  }
-
-  const imagesItems = IconsService.cards
-    .sort((a, b) => 0.5 - Math.random())
-    .slice(0, cardsNumber / 2);
 
   const chooseCard = (image: Icon) => {
     if (!image.matched && !imageOne && !imageTwo) {
@@ -56,7 +38,7 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
   };
 
   const initGame = () => {
-    const cards = cardsNumber;
+    const cards = 6;
     const allImages = [...imagesItems, ...imagesItems]
       .sort(() => Math.random() - 0.5)
       .slice(0, cards)
@@ -90,7 +72,11 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
       }, 300);
     }
   }, [imageOne, imageTwo]);
-
+  const calcTime = () => {
+    const currentTime = Date.now();
+    const timeResult = Math.floor((currentTime - time) / 1000);
+    return timeResult;
+  }
   return (
     <ImageBackground
       source={IMAGE_BACKGROUND_SOURCE}
@@ -100,7 +86,7 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
       <Center>
         <Container alignItems='center' variant='basic'>
           {modalVisible ? (
-            <WinBoard resultTime={time} navigation={navigation}></WinBoard>
+            <WinBoard resultTime={calcTime()} navigation={navigation}></WinBoard>
           ) : (
             <>
               <View style={styles.memoryBoardContainer}>
