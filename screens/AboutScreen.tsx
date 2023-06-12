@@ -38,7 +38,7 @@ export const AboutScreen = () => {
             </Heading>
             <Text
               fontSize="md"
-              color="#ff00ff"
+              color="#e5e5e5"
               fontFamily="Aldrich_400Regular"
               textAlign="center"
               marginTop="10"
@@ -47,7 +47,7 @@ export const AboutScreen = () => {
             </Text>
             <Text
               fontSize="sm"
-              color="#ff00ff"
+              color="#e5e5e5"
               fontFamily="Aldrich_400Regular"
               marginTop="10"
               textAlign="center"
@@ -56,7 +56,7 @@ export const AboutScreen = () => {
             </Text>
             <Text
               fontSize="sm"
-              color="#ff00ff"
+              color="#e5e5e5"
               fontFamily="Aldrich_400Regular"
               textAlign="center"
             >
@@ -64,7 +64,7 @@ export const AboutScreen = () => {
             </Text>
             <Text
               fontSize="sm"
-              color="#ff00ff"
+              color="#e5e5e5"
               fontFamily="Aldrich_400Regular"
               marginTop="10"
               marginBottom="5"
@@ -85,7 +85,7 @@ export const AboutScreen = () => {
             >
               <Text
                 fontSize="lg"
-                color="#ff00ff"
+                color="#e5e5e5"
                 fontFamily="Aldrich_400Regular"
                 
               >
