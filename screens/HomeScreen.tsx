@@ -28,6 +28,7 @@ export const HomeScreen = (props: Props) => {
             marginTop={35}
             marginBottom={-35}
             alt='Logo'
+            testID='logo-image'
           />
           <Heading fontSize='4xl' variant='basic'>
             Game Center
@@ -35,7 +36,7 @@ export const HomeScreen = (props: Props) => {
           <Heading fontSize='3xl' variant='basic' marginTop={35}>
             - GAMES -
           </Heading>
-          <Button variant='homeBlue' onPress={() => navigate('MemoryStart')}>
+          <Button variant='homeBlue' onPress={() => navigate('MemoryStart')} testID='memory-button'>
             <Text variant='textButton' fontSize={BUTTONS_FONT_SIZE}>
               MEMORY
             </Text>
@@ -44,12 +45,12 @@ export const HomeScreen = (props: Props) => {
             _________________
           </Heading>
 
-          <Button variant='homeBlue' onPress={() => navigate('About')}>
+          <Button variant='homeBlue' onPress={() => navigate('About')} testID='about-button'>
             <Text variant='textButton' fontSize={BUTTONS_FONT_SIZE}>
               ABOUT
             </Text>
           </Button>
-          <Button variant='homeGray' onPress={() => navigate('Settings')}>
+          <Button variant='homeGray' onPress={() => navigate('Settings')} testID='settings-button'>
             <Text variant='textButton' fontSize={BUTTONS_FONT_SIZE}>
               SETTINGS
             </Text>

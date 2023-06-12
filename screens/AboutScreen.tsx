@@ -27,6 +27,7 @@ export const AboutScreen = () => {
             marginTop={35}
             marginBottom={-35}
             alt="Logo"
+            testID='logo-image'
           />
           <Container alignItems="center" variant="about">
             <Heading fontSize="3xl" variant="basic" marginTop="8">
@@ -80,6 +81,7 @@ export const AboutScreen = () => {
               onPress={() => {
                 Linking.openURL("https://github.com/juleenek/Game-Center");
               }}
+              testID="github-button"
             >
               <Text
                 fontSize="lg"
