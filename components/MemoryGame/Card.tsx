@@ -15,7 +15,7 @@ type Props = {
 
 export const Card = (props: Props) => {
   const { level, flipped, icon, handleCard } = props;
-
+ 
   const [isFlipped, setIsFlipped] = useState(false);
 
   useEffect(() => {

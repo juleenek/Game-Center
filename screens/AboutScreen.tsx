@@ -24,12 +24,12 @@ export const AboutScreen = () => {
           <Image
             source={require("../assets/game_logo.png")}
             size={200}
-            marginTop={35}
-            marginBottom={-35}
+            marginTop={1}
+            marginBottom={-25}
             alt="Logo"
           />
           <Container alignItems="center" variant="about">
-            <Heading fontSize="3xl" variant="basic" marginTop="8">
+            <Heading fontSize="3xl" variant="basic">
               About
             </Heading>
             <Heading fontSize="3xl" variant="basic">
