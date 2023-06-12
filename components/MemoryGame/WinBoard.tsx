@@ -35,12 +35,11 @@ export const WinBoard = (props: Props) => {
   console.log(resultTime);
 
   return (
-    <Center>
-      <Container alignItems='center' w='300' h='100%' bg='#372d3f'>
+    <Center alignSelf='center' display="flex"  >
+      <Container justifyContent='center' alignItems='center' w='300' h='100%' bg='#372d3f' >
         <Text
           fontSize='3xl'
           variant='textButton'
-          marginTop={35}
           marginBottom={5}
         >
           - YOU WIN! -
