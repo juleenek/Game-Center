@@ -1,10 +1,10 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
-import { MemoryGameScreen, Props } from "../screens/Memory/MemoryGameScreen";
-import { RouteProp } from "@react-navigation/native";
-import { AppStackParamList } from "../navigation/AppNavigator";
-import { NativeBaseProvider } from "native-base";
-import { MemoryLevels } from "../utils/enums/levels.enum";
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react-native';
+import { MemoryGameScreen, Props } from '../screens/Memory/MemoryGameScreen';
+import { RouteProp } from '@react-navigation/native';
+import { AppStackParamList } from '../navigation/AppNavigator';
+import { NativeBaseProvider } from 'native-base';
+import { MemoryLevels } from '../utils/enums/levels.enum';
 
 const createTestProps = (props: Partial<Props>) => ({
   navigation: {
@@ -18,7 +18,8 @@ const createTestProps = (props: Partial<Props>) => ({
     ...props.route, // Include additional route props
   },
 });
-describe("MemoryGameScreen", () => {
+
+describe('MemoryGameScreen', () => {
   let props: any;
 
   beforeEach(() => {
@@ -39,5 +40,19 @@ describe("MemoryGameScreen", () => {
 
   it('Renders MemoryGameScreen without errors', () => {
     expect(() => renderMemoryGameScreen()).not.toThrow();
+  });
+
+  it('Handles card click correctly', () => {
+    const { getAllByTestId } = renderMemoryGameScreen();
+    const cards = getAllByTestId('card');
+    fireEvent.press(cards[0]);
+  });
+
+  it('Finishes the game correctly', () => {
+    const { getAllByTestId } = renderMemoryGameScreen();
+    const cards = getAllByTestId('card');
+    cards.forEach((card) => {
+      fireEvent.press(card);
+    });
   });
 });
