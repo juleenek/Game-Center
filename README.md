@@ -1,14 +1,35 @@
-# Mobile-Game 
+# Aplikacja mobilna - Game Center
 
-- [ ] SplashSceen – każda aplikacja musi posiadać ekran startowy z nazwą aplikacji i nazwiskami autorów, który znika po załadowaniu aplikacji
-- [ ] Opcja 'About' lub 'O aplikacji' w menu głównej aktywności - informacje z opisem aplikacji i autorami
-- [ ] Opcja 'Settings' lub 'Ustawienia' w menu głównej aktywności - zapisywanie i odczyt pliku preferencji
-- [ ] Poprawne zarządzanie uprawnieniami (wysyłanie okien dialogowych, gdy uprawnienie wymaga zgody użytkownika)
-- [ ] Animacje przejść między aktywnościami, animacje widoków
-- [ ] Lokalizacja lub zapisywanie screena z wynikiem do galerii
-- [ ] Dwa ekrany (dwie aktywności, aktywność z fragmentem)
-- [ ] Wybór rodzaju gry
-- [ ] Ustawienia (plik preferencji)
-- [ ] Zapis postępów i ukończonych gier (baza SqLite)
-- [ ] Dodatkowo można zintegrować z z kontem użytkownika (Google)
-- [ ] Dodatkowo punktowane utworzenie prostego backend’u
+__Game Center__ jest to aplikacja mobilna, która posiada grę pamięciową Memory. 
+W Memory można zagrać na trzech poziomach trudności: łatwy, średni i trudny. Poziomy różnią się ilością kart. Od początku gry jest liczony czas aby gracz po wygranej zobaczył swój wynik. 
+
+Aplikacja posiada w tle muzykę którą można wyłączyć w ustawieniach (Settings). Aplikacja posiada również SplashScreen na którym widoczne jest logo aplikacji oraz jej twórcy. Ważne informacje na temat aplikacji są zawarte w widoku About.
+</br>
+</br>
+
+## Uruchomienie aplikacji
+
+Na początku należy zainstalować wszystkie niezbędne zależności dla projektu:
+```
+npm i
+```
+</br>
+Następnie należy uruchomić projekt
+
+
+```
+npm start
+```
+</br>
+Oraz wybrać środowisko
+
+```
+a - open Android
+i - open iOS simulator
+```
+</br>
+Aby uruchomić testy należy użyć komendy
+
+```
+npm test
+```
