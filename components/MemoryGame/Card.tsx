@@ -64,7 +64,7 @@ export const Card = (props: Props) => {
   };
 
   return (
-    <Container margin={5}>
+    <Container margin={5} testID='card'>
       <TouchableOpacity
         onPress={cardClickHandle}
         style={[styles.card, flipped ? styles.matched : null]}

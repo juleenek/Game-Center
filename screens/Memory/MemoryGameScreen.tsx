@@ -10,7 +10,7 @@ import { IconsService, Icon } from '../../services/IconsService';
 import { IMAGE_BACKGROUND_SOURCE } from '../../utils/_shared';
 import { MemoryLevels } from '../../utils/enums/levels.enum';
 
-type Props = NativeStackScreenProps<AppStackParamList, 'MemoryGame'>;
+export type Props = NativeStackScreenProps<AppStackParamList, 'MemoryGame'>;
 const EASY_CARDS_NUMBER = 6;
 const MEDIUM_CARDS_NUMBER = 8;
 const HARD_CARDS_NUMBER = 12;
