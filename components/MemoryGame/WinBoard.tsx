@@ -51,15 +51,6 @@ export const WinBoard = (props: Props) => {
         <Text fontSize='2xl' variant='textButton' marginTop={35}>
           {format(resultTime)}
         </Text>
-        <Text fontSize='2xl' variant='textButton' marginTop={35}>
-          Your points:
-        </Text>
-        <Text fontSize='2xl' variant='textButton' marginTop={35}>
-          2137
-        </Text>
-        <Button variant='homeBlue' bg='#815c9f'>
-          <Text variant='textButton'>SCORES</Text>
-        </Button>
         <Button variant='homeBlue' onPress={() => navigation.navigate('Home')}>
           <Text variant='textButton'>HOME</Text>
         </Button>
