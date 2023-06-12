@@ -67,6 +67,7 @@ export const SettingsScreen = () => {
                 color="#337e88"
                 isChecked={musicEnabled}
                 onToggle={handleMusicToggle}
+                testID="music-switch"
               />
               <Text variant="textValue">{getSwitchText()}</Text>
             </Flex>
