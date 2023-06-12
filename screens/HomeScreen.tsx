@@ -25,7 +25,7 @@ export const HomeScreen = (props: Props) => {
           <Image
             source={IMAGE_LOGO_SOURCE}
             size={200}
-            marginTop={35}
+            marginTop={15}
             marginBottom={-35}
             alt='Logo'
           />
@@ -40,7 +40,7 @@ export const HomeScreen = (props: Props) => {
               MEMORY
             </Text>
           </Button>
-          <Heading fontSize='3xl' variant='basic' marginTop={25}>
+          <Heading fontSize='3xl' variant='basic' marginTop={1}>
             _________________
           </Heading>
 

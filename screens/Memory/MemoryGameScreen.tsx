@@ -98,27 +98,29 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
       imageStyle={{ opacity: 0.5 }}
     >
       <Center>
-        <Container alignItems='center' variant='basic'>
+        <Container variant='basic'>
           {finished ? (
             <WinBoard resultTime={calcTime()} navigation={navigation} />
           ) : (
             <>
               {icons.length ? (
-                <View style={styles.boardGame}>
-                  {icons.map((icon, key) => {
-                    return (
-                      <Card
-                        level={level}
-                        key={key}
-                        handleCard={handleCard}
-                        flipped={
-                          icon === iconOne || icon === iconTwo || icon.matched
-                        }
-                        icon={icon}
-                      />
-                    );
-                  })}
-                </View>
+                <Center style={styles.boardGameContainer}>
+                  <View style={styles.boardGame}>
+                    {icons.map((icon, key) => {
+                      return (
+                        <Card
+                          level={level}
+                          key={key}
+                          handleCard={handleCard}
+                          flipped={
+                            icon === iconOne || icon === iconTwo || icon.matched
+                          }
+                          icon={icon}
+                        />
+                      );
+                    })}
+                  </View>
+                </Center>
               ) : (
                 <></>
               )}
@@ -131,12 +133,14 @@ export const MemoryGameScreen = ({ route, navigation }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  boardGame: {
+  boardGameContainer: {
     width: '100%',
-    justifyContent: 'center',
     height: '100%',
+  },
+  boardGame: {
     display: 'flex',
-    flexWrap: 'wrap',
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center'
   },
 });
