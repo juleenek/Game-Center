@@ -11,7 +11,7 @@ import { AppStackParamList } from '../../navigation/AppNavigator';
 
 const BUTTONS_FONT_SIZE = '2xl';
 
-type Props = NativeStackScreenProps<AppStackParamList, 'MemoryStart'>;
+export type Props = NativeStackScreenProps<AppStackParamList, 'MemoryStart'>;
 
 export const MemoryStartScreen = (props: Props) => {
   const { navigate } = props.navigation;
@@ -37,6 +37,7 @@ export const MemoryStartScreen = (props: Props) => {
           <Button
             variant='homeBlue'
             onPress={() => navigate('MemoryGame', { level: MemoryLevels.EASY })}
+            testID='easy-button'
           >
             <Text variant='textButton' fontSize={BUTTONS_FONT_SIZE}>
               EASY
@@ -47,6 +48,7 @@ export const MemoryStartScreen = (props: Props) => {
             onPress={() =>
               navigate('MemoryGame', { level: MemoryLevels.MEDIUM })
             }
+            testID='medium-button'
           >
             <Text variant='textButton' fontSize={BUTTONS_FONT_SIZE}>
               MEDIUM
@@ -55,6 +57,7 @@ export const MemoryStartScreen = (props: Props) => {
           <Button
             variant='homeBlue'
             onPress={() => navigate('MemoryGame', { level: MemoryLevels.HARD })}
+            testID='hard-button'
           >
             <Text variant='textButton' fontSize={BUTTONS_FONT_SIZE}>
               HARD
