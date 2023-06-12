@@ -1,20 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from "react";
+import { NativeBaseProvider } from "native-base";
+import { AppNavigator } from "./navigation/AppNavigator";
+import { theme } from "./themes/appTheme";
+import * as SplashScreen from "expo-splash-screen";
+import {
+  useFonts,
+  Audiowide_400Regular,
+  Aldrich_400Regular,
+} from "@expo-google-fonts/dev";
+import { SoundService } from "./services/SoundService";;
 
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    Audiowide_400Regular,
+    Aldrich_400Regular,
+  });
+
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+      SoundService.playMusic();
+        }
+    prepare();
+  }, []);
+
+
+  if (!fontsLoaded) {
+    return null;
+  } else {
+    setTimeout(() => {
+      SplashScreen.hideAsync();
+    }, 2000);
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NativeBaseProvider theme={theme}>
+      <AppNavigator />
+    </NativeBaseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
