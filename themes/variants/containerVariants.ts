@@ -24,7 +24,7 @@ export const settingsBasicContainer = () => {
 }
 export const aboutBasicContainer = () => {
   return {
-    w: '70%',
+    w: '95%',
     display: 'flex',
     bg: '#6b7280',
     borderWidth: '1',
@@ -33,7 +33,9 @@ export const aboutBasicContainer = () => {
     justifyContent: 'center',
     shadow: '4',
     paddingTop: '4',
-    paddingBottom: '8'
+    paddingBottom: '8',
+    paddingLeft: '3',
+    paddingRight: '3'
   }
 }
 
